@@ -5,6 +5,7 @@ import confetti from 'canvas-confetti';
 import { Helmet } from "react-helmet";
 import Navbar from '../../components/user/navbar/navbar';
 import { useLocation } from 'react-router-dom';
+import Footer from '../../components/user/footer/footer';
 
 const Checkout = () => {
   const location = useLocation();
@@ -437,6 +438,7 @@ const Checkout = () => {
         </div>
       )}
     </div>
+    <Footer/>
   </div>
 );
 };

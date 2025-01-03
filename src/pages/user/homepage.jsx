@@ -194,13 +194,27 @@ const HomePage = () => {
       <div className="grid grid-cols-12 bg-[#f8f8f8]">
         <div className="col-span-3 m-6">
           <div className="p-8 pt-8 pb-8 pr-16 flex flex-col justify-start text-lg bg-[#fed2cb] rounded-xl">
-            <p className=" transition-all border-b-4 border-dotted border-[#e7c1ba] text-[#c17979] text-lg font pb-4 pt-4 hover:text-[#be5959]">Garment Care</p>
-            <p className="transition-all border-b-4 border-dotted border-[#e7c1ba] text-[#c17979] text-lg font pb-4 pt-4 hover:text-[#be5959]">Home & Living</p>
-            <p className="transition-all border-b-4 border-dotted border-[#e7c1ba] text-[#c17979] text-lg font pb-4 pt-4 hover:text-[#be5959]">Jewelry and Accessories</p>
-            <p className="transition-all border-b-4 border-dotted border-[#e7c1ba] text-[#c17979] text-lg font pb-4 pt-4 hover:text-[#be5959]">Ocassion Gifts</p>
-            <p className="transition-all border-b-4 border-dotted border-[#e7c1ba] text-[#c17979] text-lg font pb-4 pt-4 hover:text-[#be5959]">Office & Stationery</p>
-            <p className="transition-all border-b-4 border-dotted border-[#e7c1ba] text-[#c17979] text-lg font pb-4 pt-4 hover:text-[#be5959]">Personalised Gifts</p>
-            <p className="text-[#c17979] text-lg font pb-3 pt-3">Uncategorized</p>
+            <Link to={"/shop"}>
+                <p className=" transition-all border-b-4 border-dotted border-[#e7c1ba] text-[#c17979] text-lg font pb-4 pt-4 hover:text-[#be5959]">Garment Care</p>
+            </Link>
+            <Link to={"/shop"}>
+              <p className="transition-all border-b-4 border-dotted border-[#e7c1ba] text-[#c17979] text-lg font pb-4 pt-4 hover:text-[#be5959]">Home & Living</p>
+            </Link>
+            <Link to={"/shop"}>
+              <p className="transition-all border-b-4 border-dotted border-[#e7c1ba] text-[#c17979] text-lg font pb-4 pt-4 hover:text-[#be5959]">Jewelry and Accessories</p>
+            </Link>
+            <Link to={"/shop"}>
+              <p className="transition-all border-b-4 border-dotted border-[#e7c1ba] text-[#c17979] text-lg font pb-4 pt-4 hover:text-[#be5959]">Ocassion Gifts</p>
+            </Link>
+            <Link to={"/shop"}>
+              <p className="transition-all border-b-4 border-dotted border-[#e7c1ba] text-[#c17979] text-lg font pb-4 pt-4 hover:text-[#be5959]">Office & Stationery</p>
+            </Link>
+            <Link to={"/shop"}>
+              <p className="transition-all border-b-4 border-dotted border-[#e7c1ba] text-[#c17979] text-lg font pb-4 pt-4 hover:text-[#be5959]">Personalised Gifts</p>
+            </Link>
+            <Link to={"/shop"}>
+              <p className="text-[#c17979] text-lg font pb-3 pt-3">Uncategorized</p>
+            </Link>
           </div>
           <div className="p-8 pt-8 pb-8 pr-8 mt-10 bg-white rounded-xl">
             <div className="flex flex-col justify-center items-center p-8 border-b-4 border-dotted border-gray-200 gap-2">
@@ -232,7 +246,10 @@ const HomePage = () => {
               <p className="text font-semibold tracking-widest">GIFT IDEAS</p>
             </div>
             <img src={h1Banner5} alt="" className="h-80 hover:scale-110 transition-all duration-200"/>
-            <p className="text-xs border-b-2 border-dashed border-[#c17979] p-2 pl-0 pr-0 tracking-wide hover:text-[#be5959]">SHOP NOW</p>
+            <Link to={"/shop"}>
+              <p className="text-xs border-b-2 border-dashed border-[#c17979] p-2 pl-0 pr-0 tracking-wide hover:text-[#be5959]">SHOP NOW</p>
+            </Link>
+            
           </div>
           </div>
         </div>
@@ -246,13 +263,15 @@ const HomePage = () => {
               </div>
               <img src={h1Slider2} alt="" className="h-100 w-full"/>
             </div>
-            <p className="text-sm tracking-widest font-light">from $2.90</p>
+            <p className="text-sm tracking-widest font-light">from ₹2.90</p>
           </div>
           <div className="col-span-7 row-span-2 bg-[url(https://demo2.themelexus.com/gifymo/wp-content/uploads/2021/05/h1-banner1.jpg)]  rounded-xl bg-auto pl-16 flex items-center">
           <div className="flex flex-col justify-center items-center gap-5 font-light tracking-widest">
             <p>Clearance Sale</p>
             <p className="font-base text-5xl tracking-wider pb-2">Women's Day</p>
-            <p className="p-2 border-b-2 border-[#be5959] text-xs border-dashed">SHOP NOW</p>
+            <Link to={"/shop"}>
+              <p className="p-2 border-b-2 border-[#be5959] text-xs border-dashed">SHOP NOW</p>
+            </Link>
           </div>
           </div>
           <div className="col-span-5 row-span-2 bg-[url(https://demo2.themelexus.com/gifymo/wp-content/uploads/2021/05/h1-banner2.jpg)] rounded-xl bg-auto flex justify-center items-center">
@@ -295,7 +314,7 @@ const HomePage = () => {
                   </div>
                   <img src="https://demo2.themelexus.com/gifymo/wp-content/uploads/2021/05/21.jpg" alt="" className="h-44"/>
                 </div>
-                <p>$132</p>
+                <p>₹132</p>
                 <p>Hallmark Stuffed Snoopy</p>
               </div>
             </div>
@@ -303,15 +322,19 @@ const HomePage = () => {
           <div className="col-span-4 row-span-2">
             <div className="bg-[url('https://demo2.themelexus.com/gifymo/wp-content/uploads/2021/05/h1-banner3.jpg')] flex flex-col justify-center items-center h-full w-full gap-5 pb-24 bg-auto rounded-xl font-extralight">
               <p>Shop Online Gifts Under</p>
-              <p className="text-4xl font-semibold">$19.99</p>
-              <p className="text-xs pb-2 border-b-2 border-[#c17979] border-dotted font-normal">SHOP NOW</p>
+              <p className="text-4xl font-semibold">₹19.99</p>
+              <Link to={"/shop"}>
+                <p className="text-xs pb-2 border-b-2 border-[#c17979] border-dotted font-normal">SHOP NOW</p>
+              </Link>
             </div>
           </div>
           <div className="col-span-8 row-span-2">
             <div className="bg-[url('https://demo2.themelexus.com/gifymo/wp-content/uploads/2021/05/h1-banner4.jpg')] flex flex-col gap-5 w-full h-full justify-center items-center rounded-xl">
               <p>AMAZING GIFTS</p>
               <p className="text-4xl font-semibold">30% Off home decor</p>
-              <p className="border-b-2 border-dashed pb-2 border-yellow-400">SHOP NOW</p>
+              <Link to={"/shop"}>
+                <p className="border-b-2 border-dashed pb-2 border-yellow-400">SHOP NOW</p>  
+              </Link>
             </div>
           </div>
         </div>
