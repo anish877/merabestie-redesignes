@@ -9,7 +9,7 @@ import { Helmet } from "react-helmet";
 
 const ShoppingCartPage = () => {
   return (
-    <div className="bg-pink-50 min-h-screen">
+    <div className="min-h-screen">
       <Helmet>
         <title>Shopping Cart | Mera Bestie</title>
       </Helmet>
@@ -33,7 +33,6 @@ const ShoppingCartPage = () => {
    {/* Content Section */}
    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 overflow-auto">
     <CartItems />
-    <RecentlyViewed />
   </div>
 </div>
     </div>

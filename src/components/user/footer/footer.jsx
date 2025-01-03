@@ -3,27 +3,27 @@ import { FaFacebook, FaTwitter, FaInstagram } from 'react-icons/fa';
 
 const Footer = () => {
   return (
-    <footer className="bg-white py-16 text-black border-t border-pink-200">
+    <footer className="bg-white py-16 text-black border-gray-200 border-t-4 border-dotted">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 px-6">
-        <div className="flex flex-col items-center md:items-start">
-          <h4 className="text-3xl font-extrabold text-pink-800 mb-4">MERA Bestie</h4>
+        <div className="flex flex-col items-center md:items-start gap-5">
+        <div className="col-span-1 flex justify-start items-center text-5xl font-extrabold text-[#be7474] italic" ><h1>mera<span className="text-black">bestie</span></h1></div>
           <p className="text-gray-600 mb-4 text-center md:text-left">
             Your one-stop destination for thoughtful and unique gifts.
           </p>
           <div className="flex space-x-6 text-3xl mt-4">
             <a href="https://www.facebook.com/merabestie" target="_blank" rel="noopener noreferrer">
-              <FaFacebook className="text-pink-600 hover:text-pink-800 transition cursor-pointer" />
+              <FaFacebook className="text-gray-500 transition cursor-pointer" />
             </a>
             <a href="https://www.instagram.com/merabestie" target="_blank" rel="noopener noreferrer">
-              <FaInstagram className="text-pink-600 hover:text-pink-800 transition cursor-pointer" />
+              <FaInstagram className="text-gray-500 hover:text-pink-800 transition cursor-pointer" />
             </a>
             <a href="https://www.twitter.com/merabestie" target="_blank" rel="noopener noreferrer">
-              <FaTwitter className="text-pink-600 hover:text-pink-800 transition cursor-pointer" />
+              <FaTwitter className="text-gray-500 hover:text-pink-800 transition cursor-pointer" />
             </a>
           </div>
         </div>
         <div className="text-center md:text-right">
-          <h5 className="text-2xl font-bold text-pink-800 mb-4">Contact Us</h5>
+          <h5 className="text-2xl font-bold text-gray-500 mb-4">Contact Us</h5>
           <p className="text-gray-600">
             3181 Street Name, City, India
             <br />

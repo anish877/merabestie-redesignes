@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { Package, ShoppingBag, MessageSquare, Users, Calendar, Menu, LayoutDashboard, LogOut, Ticket } from 'lucide-react';
+import AddProductDialog from './addProduct';
 
 const Sidebar = () => {
     const navigate = useNavigate();
@@ -85,8 +86,9 @@ const Sidebar = () => {
         }
     };
 
-    const handleSubmit = async () => {
+    const handleSubmit = async (productData) => {
         try {
+            console.log(productData)
             const response = await fetch('https://ecommercebackend-8gx8.onrender.com/create-product', {
                 method: 'POST',
                 headers: {
@@ -124,99 +126,11 @@ const Sidebar = () => {
             </button>
 
             {showDialog && (
-                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-                    <div className="bg-white p-6 rounded-lg w-96">
-                        <h2 className="text-xl font-bold mb-4">Add New Product</h2>
-                        <input
-                            type="text"
-                            name="name"
-                            placeholder="Product Name"
-                            value={productData.name}
-                            onChange={handleInputChange}
-                            className="w-full mb-3 p-2 border rounded"
-                        />
-                        <input
-                            type="text"
-                            name="price"
-                            placeholder="Price"
-                            value={productData.price}
-                            onChange={handleInputChange}
-                            className="w-full mb-3 p-2 border rounded"
-                        />
-                        <input
-                            type="text"
-                            name="img"
-                            placeholder="Image URL"
-                            value={productData.img}
-                            onChange={handleInputChange}
-                            className="w-full mb-3 p-2 border rounded"
-                        />
-                        <input
-                            type="text"
-                            name="category"
-                            placeholder="Category"
-                            value={productData.category}
-                            onChange={handleInputChange}
-                            className="w-full mb-3 p-2 border rounded"
-                        />
-                        <input
-                            type="number"
-                            name="rating"
-                            placeholder="Rating"
-                            value={productData.rating}
-                            onChange={handleInputChange}
-                            className="w-full mb-3 p-2 border rounded"
-                            min={0}
-                            max={5}
-                        />
-                        <div className="flex mb-3">
-                            <input
-                                type="text"
-                                name="productId"
-                                placeholder="Product ID"
-                                value={productData.productId}
-                                readOnly
-                                className="w-2/3 p-2 border rounded-l"
-                            />
-                            <button
-                                onClick={generateProductId}
-                                className="w-1/3 bg-pink-500 text-white p-2 rounded-r"
-                            >
-                                Generate
-                            </button>
-                        </div>
-                        <input
-                            type="number"
-                            name="inStockValue"
-                            placeholder="In Stock"
-                            value={productData.inStockValue}
-                            onChange={handleInputChange}
-                            className="w-full mb-3 p-2 border rounded"
-                        />
-                        <input
-                            type="number"
-                            name="soldStockValue"
-                            placeholder="Sold Stock"
-                            value={productData.soldStockValue}
-                            onChange={handleInputChange}
-                            className="w-full mb-3 p-2 border rounded"
-                        />
-                        <div className="flex justify-end gap-2">
-                            <button
-                                onClick={() => setShowDialog(false)}
-                                className="px-4 py-2 bg-gray-300 rounded"
-                            >
-                                Cancel
-                            </button>
-                            <button
-                                onClick={handleSubmit}
-                                className="px-4 py-2 bg-pink-500 text-white rounded"
-                            >
-                                Save Product
-                            </button>
-                        </div>
-                    </div>
-                </div>
+            <AddProductDialog
+                isOpen={showDialog}
+                onClose={() => setShowDialog(false)}
+                onSubmit={handleSubmit}
+            />
             )}
 
             <div className={`fixed left-0 top-0 h-screen bg-pink-50 shadow-lg transition-all duration-300 flex flex-col 

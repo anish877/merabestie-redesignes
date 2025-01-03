@@ -1,39 +1,31 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { motion, AnimatePresence } from "framer-motion";
 import { 
   RiSearchLine, 
-  RiCloseLine, 
-  RiMenu3Line, 
-  RiUser3Line, 
-  RiShoppingCart2Line, 
-  RiGift2Line,
-  RiHome2Line,
-  RiStore2Line,
-  RiPhoneLine,
-  RiInformationLine,
-  RiLogoutBoxRLine,
+  RiCloseLine,  
   RiFileList3Line,
-  RiUserAddLine,
+  RiLogoutBoxRLine,
   RiLoginBoxLine,
+  RiUserAddLine,
+  RiStore2Line,
 } from "react-icons/ri";
 import SearchBar from "./SearchBar";
+import { ChevronDownIcon, Headset, ShoppingCart, Truck } from "lucide-react";
 
 const ProfessionalNavbar = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [userName, setUserName] = useState("");
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
   const [cartItemCount, setCartItemCount] = useState(0);
-  const navigate = useNavigate();
-  
-  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
-  const toggleProfileMenu = () => setIsProfileMenuOpen(!isProfileMenuOpen);
-  const toggleSearch = () => setIsSearchOpen(!isSearchOpen);
-  const isActive = (path) => location.pathname === path;
+  const [cartTotal, setCartTotal] = useState(0);
+  const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
   const searchRef = useRef();
+  const profileRef = useRef();
+  
+  const toggleSearch = () => setIsSearchOpen(!isSearchOpen);
+  const toggleProfileMenu = () => setIsProfileMenuOpen(!isProfileMenuOpen);
+  const isActive = (path) => location.pathname === path;
 
   useEffect(() => {
     const fetchCartItems = async () => {
@@ -54,13 +46,12 @@ const ProfessionalNavbar = () => {
         
         if (cartData.success && cartData.cart && Array.isArray(cartData.cart.productsInCart)) {
           const total = cartData.cart.productsInCart.reduce((sum, item) => sum + 1, 0);
+          const cartTotal = cartData.cart.productsInCart.reduce((sum, item) => sum + item.price, 0);
           setCartItemCount(total);
-        } else {
-          setCartItemCount(0);
+          setCartTotal(cartTotal);
         }
       } catch (error) {
         console.error("Error fetching cart:", error);
-        setCartItemCount(0);
       }
     };
 
@@ -72,6 +63,9 @@ const ProfessionalNavbar = () => {
       if (searchRef.current && !searchRef.current.contains(event.target)) {
         setIsSearchOpen(false);
       }
+      if (profileRef.current && !profileRef.current.contains(event.target)) {
+        setIsProfileMenuOpen(false);
+      }
     };
 
     document.addEventListener("mousedown", handleClickOutside);
@@ -81,17 +75,6 @@ const ProfessionalNavbar = () => {
   }, []);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
-    };
-
-    const handleResize = () => {
-      if (window.innerWidth >= 1024) {
-        setIsMenuOpen(false);
-        setIsSearchOpen(false);
-      }
-    };
-
     const fetchUserName = async () => {
       const userId = sessionStorage.getItem("userId");
       if (userId) {
@@ -107,14 +90,7 @@ const ProfessionalNavbar = () => {
       }
     };
 
-    window.addEventListener("scroll", handleScroll);
-    window.addEventListener("resize", handleResize);
     fetchUserName();
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-      window.removeEventListener("resize", handleResize);
-    };
   }, []);
 
   const handleLogout = () => {
@@ -124,287 +100,123 @@ const ProfessionalNavbar = () => {
 
   const userId = sessionStorage.getItem("userId");
 
-  const menuVariants = {
-    closed: {
-      x: "-100%",
-      transition: {
-        type: "spring",
-        stiffness: 400,
-        damping: 40
-      }
-    },
-    open: {
-      x: 0,
-      transition: {
-        type: "spring",
-        stiffness: 400,
-        damping: 40
-      }
-    }
-  };
-
-  const linkVariants = {
-    closed: { x: -20, opacity: 0 },
-    open: i => ({
-      x: 0,
-      opacity: 1,
-      transition: {
-        delay: i * 0.1,
-        type: "spring",
-        stiffness: 300,
-        damping: 24
-      }
-    })
-  };
-
-  const navLinks = [
-    { path: "/HomePage", name: "HOME", icon: RiHome2Line },
-    { path: "/shop", name: "SHOP", icon: RiStore2Line },
-    { path: "/contact", name: "CONTACT", icon: RiPhoneLine },
-    { path: "/about", name: "ABOUT", icon: RiInformationLine }
-  ];
-
   return (
-    <nav
-      className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
-        scrolled ? "bg-white shadow-md" : "bg-transparent"
-      }`}
-    >
-      {/* Top Promotional Banner */}
-      <div
-        className={`bg-pink-600 text-white py-2 text-center text-xs transition-all duration-300 ${
-          scrolled ? "opacity-0 h-0 overflow-hidden" : "opacity-100 h-auto"
-        }`}
-      >
-        <div className="max-w-[1200px] mx-auto px-4 flex items-center justify-center">
-          <RiGift2Line className="mr-2" />
-          <span>
-            USE CODE OFF10 TO GET FLAT 10% OFF ON ORDERS ABOVE RS.499 | FREE
-            SHIPPING | COD AVAILABLE
-          </span>
-        </div>
-      </div>
-
-      {/* Main Navigation */}
-      <div className="bg-white border-b">
-        <div className="max-w-[1200px] mx-auto px-4 lg:px-0">
-          <div className="h-[70px] flex items-center justify-between">
-            {/* Mobile Menu Toggle */}
-            <button
-              onClick={toggleMenu}
-              className="lg:hidden text-black hover:text-pink-600 transition"
-            >
-              <RiMenu3Line className="w-6 h-6" />
-            </button>
-
-            {/* Logo */}
-            <Link
-              to="/HomePage"
-              className="text-2xl flex items-center hover:opacity-80 transition mx-auto lg:mx-0"
-            >
-              <span className="font-['Bodoni_MT'] font-bold text-3xl sm:text-4xl text-pink-600">
-                MERA Bestie
-              </span>
-            </Link>
-
-            {/* Desktop Navigation Links */}
-            <div className="hidden lg:flex items-center justify-center absolute left-1/2 transform -translate-x-1/2">
-              {navLinks.map(({ path, name }) => (
-                <Link
-                  key={path}
-                  to={path}
-                  className={`px-4 py-2 mx-2 ${
-                    isActive(path)
-                      ? "text-pink-600"
-                      : "text-gray-800 hover:text-pink-600"
-                  } transition-colors duration-200`}
-                >
-                  {name}
+    <div>
+      <div className="border-b border-gray-200 flex gap-4 p-4 text-sm justify-end pr-10">
+        {userId ? (
+          <div className="relative" ref={profileRef}>
+            <button onClick={toggleProfileMenu} className="hover:text-[#be7474]">Hi, {userName}</button>
+            {isProfileMenuOpen && (
+              <div className="absolute right-0 mt-2 w-48 bg-white border rounded-lg shadow-lg z-50">
+                <Link to="/orders" className="flex items-center px-4 py-2 hover:bg-[#ffa7a781] transition">
+                  <RiFileList3Line className="w-4 h-4 mr-2" />
+                  My Orders
                 </Link>
-              ))}
-            </div>
-
-            {/* Action Icons */}
-            <div className="flex items-center space-x-6">
-              <button
-                className="text-gray-800 hover:text-pink-600 transition"
-                onClick={toggleSearch}
-              >
-                <RiSearchLine className="w-5 h-5" />
-              </button>
-
-              <Link
-                to="/cart"
-                className="relative text-gray-800 hover:text-pink-600 transition flex items-center"
-              >
-                <RiShoppingCart2Line className="w-5 h-5" />
-                <span className="ml-2 hidden md:block">Cart</span>
-                {cartItemCount > 0 && (
-                  <span className="absolute top-[-8px] right-[-8px] bg-pink-600 text-white rounded-full text-xs w-4 h-4 flex items-center justify-center">
-                    {cartItemCount}
-                  </span>
-                )}
-              </Link>
-
-              <div className="relative">
-                <button
-                  onClick={toggleProfileMenu}
-                  className="flex items-center text-gray-800 hover:text-pink-600 transition"
-                >
-                  <RiUser3Line className="w-5 h-5" />
-                  <span className="ml-2 hidden md:block">
-                    {userId ? `Hi, ${userName}` : "Profile"}
-                  </span>
+                <button onClick={handleLogout} className="w-full text-left flex items-center px-4 py-2 hover:bg-[#ffa7a781] transition">
+                  <RiLogoutBoxRLine className="w-4 h-4 mr-2" />
+                  Logout
                 </button>
-
-                {isProfileMenuOpen && (
-                  <motion.div
-                    initial={{ opacity: 0, y: -10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    className="absolute right-0 mt-2 w-48 bg-white border rounded-lg shadow-lg overflow-hidden z-50"
-                  >
-                    {userId ? (
-                      <>
-                        <Link
-                          to="/orders"
-                          className="flex items-center px-4 py-2 hover:bg-pink-50 transition"
-                        >
-                          <RiFileList3Line className="w-4 h-4 mr-2" />
-                          My Orders
-                        </Link>
-                        <button
-                          onClick={handleLogout}
-                          className="w-full text-left flex items-center px-4 py-2 hover:bg-pink-50 transition"
-                        >
-                          <RiLogoutBoxRLine className="w-4 h-4 mr-2" />
-                          Logout
-                        </button>
-                      </>
-                    ) : (
-                      <>
-                        <Link
-                          to="/login"
-                          className="flex items-center px-4 py-2 hover:bg-pink-50 transition"
-                        >
-                          <RiLoginBoxLine className="w-4 h-4 mr-2" />
-                          Login
-                        </Link>
-                        <Link
-                          to="/Signup"
-                          className="flex items-center px-4 py-2 hover:bg-pink-50 transition"
-                        >
-                          <RiUserAddLine className="w-4 h-4 mr-2" />
-                          Sign Up
-                        </Link>
-                        <Link
-                          to='/seller/login'
-                          className="flex items-center px-4 py-2 hover:bg-pink-50 transition"
-                        >
-                          <RiStore2Line className="w-4 h-4 mr-2" />
-                          Seller
-                        </Link>
-                      </>
-                    )}
-                  </motion.div>
-                )}
               </div>
-            </div>
+            )}
+          </div>
+        ) : (
+          <>
+            <Link to="/login" className="hover:text-[#be7474]">Login</Link>
+            <Link to="/Signup" className="hover:text-[#be7474]">Register</Link>
+            <Link to="/seller/login" className="hover:text-[#be7474]">Seller</Link>
+          </>
+        )}
+        <Link to="/about" className="font-light text-gray-500 hover:text-[#be7474]">About Us</Link>
+        <button className="font-light text-gray-500 hover:text-[#be7474]">Track Orders</button>
+        <button className="font-light text-gray-500 hover:text-[#be7474]">FAQ</button>
+      </div>
+      <div className="grid grid-cols-4 justify-center items-center p-4 pl-8 pr-0 pb-12 pt-12 border-b-4 border-gray-200 border-dotted">
+        <Link to={"/"}>
+          <div className="col-span-1 flex justify-start items-center text-5xl font-extrabold text-[#be7474] italic">
+            <h1>mera<span className="text-black">bestie</span></h1>
+          </div>
+        </Link>
+        
+        <div className="col-span-1 flex justify-center gap-4 items-center">
+          <Truck size={40} strokeWidth={1} className="hover:text-[#be7474]"/>
+          <div className="flex flex-col gap-1.5 font-light">
+            <p className="text-xs text-gray-500 hover:text-[#be7474]">Free standard shipping</p>
+            <p>on all orders over $99</p>
           </div>
         </div>
+        <div className="col-span-1 flex justify-center gap-4 items-center">
+          <Headset size={40} strokeWidth={1} className="hover:text-[#be7474]"/>
+          <div className="flex flex-col gap-1.5 font-light">
+            <p className="text-xs text-gray-500 hover:text-[#be7474]">support@example.com</p>
+            <p>012 - 345 - 6789</p>
+          </div>
+        </div>
+        <Link to="/cart" className="col-span-1 flex justify-center gap-4 items-center">
+          <div className="relative">
+            <ShoppingCart size={40} strokeWidth={1} className="hover:text-[#be7474]"/>
+            {cartItemCount > 0 && (
+              <span className="absolute -top-2 -right-2 bg-[#be7474] text-white rounded-full text-xs w-5 h-5 flex items-center justify-center">
+                {cartItemCount}
+              </span>
+            )}
+          </div>
+          <div className="flex flex-col gap-1.5 font-light">
+            <p className="text-xs text-gray-500 hover:text-[#be7474]">Cart: {cartItemCount} items</p>
+          </div>
+        </Link>
+      </div>
+      <div className="flex items-center justify-between pl-10 pr-10 pt-6 pb-6 border-b-4 border-dotted">
+        <div className="flex gap-8">
+          <Link to={"/"}>
+            <div className="flex gap-1 items-center hover:bg-[#ffa7a781] hover:text-[#8b5858] p-1.5 px-2 transition-all duration-500 rounded-xl">
+              <p className="font- cursor-pointer">HOME</p>
+              <ChevronDownIcon size={15} className="text-gray-600" strokeWidth={2.5}/>
+            </div>
+          </Link>
+          
+          <Link to={"/shop"} className="p-0 m-0">
+            <div className="flex gap-1 items-center hover:bg-[#ffa7a781] hover:text-[#8b5858] p-1.5 px-2 transition-all duration-500 rounded-xl">
+              <p className="font- cursor-pointer">SHOP</p>
+              <ChevronDownIcon size={15} className="text-gray-600" strokeWidth={2.5}/>
+            </div>
+          </Link>
+          <div className="flex gap-1 items-center hover:bg-[#ffa7a781] hover:text-[#8b5858] p-1.5 px-2 transition-all duration-500 rounded-xl">
+            <p className="font- cursor-pointer">PAGES</p>
+            <ChevronDownIcon size={15} className="text-gray-600" strokeWidth={2.5}/>
+          </div>
+          <div className="flex gap-1 items-center hover:bg-[#ffa7a781] hover:text-[#8b5858] p-1.5 px-2 transition-all duration-500 rounded-xl">
+            <p className="font- cursor-pointer">OUR STORY</p>
+          </div>
+          <div className="flex gap-1 items-center hover:bg-[#ffa7a781] hover:text-[#8b5858] p-1.5 px-2 transition-all duration-500 rounded-xl">
+            <p className="font- cursor-pointer">BLOG</p>
+            <ChevronDownIcon size={15} className="text-gray-600" strokeWidth={2.5}/>
+          </div>
+          <Link to="/contact">
+            <div className="flex gap-1 items-center hover:bg-[#ffa7a781] hover:text-[#8b5858] p-1.5 px-2 transition-all duration-500 rounded-xl">
+              <p className="font- cursor-pointer">CONTACT</p>
+            </div>
+          </Link>
+        </div>
+        <button onClick={toggleSearch} className="hover:text-[#be7474]">
+          <RiSearchLine size={24} />
+        </button>
       </div>
 
-      {/* Mobile Menu */}
-      <AnimatePresence>
-        {isMenuOpen && (
-          <motion.div
-            initial="closed"
-            animate="open"
-            exit="closed"
-            variants={menuVariants}
-            className="lg:hidden fixed inset-y-0 left-0 w-64 z-50 bg-white shadow-xl"
-          >
-            <div className="flex justify-between items-center p-4 border-b">
-              <span className="font-['Bodoni_MT'] text-2xl font-bold text-pink-600">
-                Menu
-              </span>
-              <motion.button
-                whileHover={{ rotate: 90 }}
-                whileTap={{ scale: 0.9 }}
-                onClick={() => setIsMenuOpen(false)}
-                className="text-gray-800"
-              >
-                <RiCloseLine className="w-6 h-6" />
-              </motion.button>
-            </div>
-            <div className="py-4">
-              {navLinks.map(({ path, name, icon: Icon }, i) => (
-                <motion.div
-                  key={path}
-                  custom={i}
-                  variants={linkVariants}
-                  initial="closed"
-                  animate="open"
-                  exit="closed"
-                >
-                  <Link
-                    to={path}
-                    className={`flex items-center px-6 py-3 ${
-                      isActive(path)
-                        ? "text-pink-600 bg-pink-50"
-                        : "text-gray-800 hover:bg-pink-50 hover:text-pink-600"
-                    } transition-colors duration-200`}
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    <Icon className="w-5 h-5 mr-3" />
-                    {name}
-                  </Link>
-                </motion.div>
-              ))}
-              <div className="border-t mt-4 pt-4">
-                <Link
-                  to="/cart"
-                  className="flex items-center px-6 py-3 text-gray-800 hover:bg-pink-50 hover:text-pink-600 transition-colors duration-200"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  <RiShoppingCart2Line className="w-5 h-5 mr-3" />
-                  Cart {cartItemCount > 0 && `(${cartItemCount})`}
-                </Link>
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* Search Overlay */}
-      <AnimatePresence>
-        {isSearchOpen && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center"
-          >
-            <motion.div
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.9, opacity: 0 }}
-              className="bg-white p-4 rounded-lg w-full max-w-md mx-4"
-              ref={searchRef}
+      {isSearchOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
+          <div className="bg-white p-4 rounded-lg w-full max-w-md mx-4" ref={searchRef}>
+            <SearchBar />
+            <button 
+              onClick={toggleSearch}
+              className="mt-2 text-gray-600 hover:text-[#be7474] flex items-center justify-center w-full"
             >
-              <SearchBar />
-              <button 
-                onClick={toggleSearch}
-                className="mt-2 text-gray-600 hover:text-pink-600 flex items-center justify-center w-full"
-              >
-                <RiCloseLine className="w-4 h-4 mr-2" />
-                Close
-              </button>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </nav>
+              <RiCloseLine className="w-4 h-4 mr-2" />
+              Close
+            </button>
+          </div>
+        </div>
+      )}
+    </div>
   );
 };
 

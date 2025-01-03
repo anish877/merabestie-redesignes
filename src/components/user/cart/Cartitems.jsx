@@ -16,16 +16,15 @@ const CartItems = () => {
   });
 
   useEffect(() => {
-    const fetchCartItems = async () => {
-      const userId = sessionStorage.getItem('userId');
-      if (!userId) {
-        setError('Please login to view cart');
-        setLoading(false);
-        return;
-      }
+    fetchCartItems();
+  }, []);
 
+  const fetchCartItems = async () => {
+    const userId = sessionStorage.getItem('userId');
+
+    if (userId) {
+      // Fetch cart for logged-in user
       try {
-        // First fetch cart data
         const cartResponse = await fetch(`https://ecommercebackend-8gx8.onrender.com/cart/get-cart`, {
           method: 'POST',
           headers: {
@@ -41,31 +40,22 @@ const CartItems = () => {
           return;
         }
 
-        // Create a map to track unique products and their counts
-        const productCountMap = cartData.cart.productsInCart.reduce((acc, item) => {
-          acc[item.productId] = (acc[item.productId] || 0) + 1;
-          return acc;
-        }, {});
-
-        // Get unique product IDs
-        const uniqueProductIds = [...new Set(cartData.cart.productsInCart.map(item => item.productId))];
-
-        // Get product details for each unique product
-        const productPromises = uniqueProductIds.map(async (productId) => {
+        // Get product details for each cart item
+        const productPromises = cartData.cart.productsInCart.map(async (item) => {
           const productResponse = await fetch('https://ecommercebackend-8gx8.onrender.com/:productId', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ productId })
+            body: JSON.stringify({ productId: item.productId })
           });
           const productData = await productResponse.json();
 
           if (productData.success) {
             return {
               ...productData.product,
-              quantity: cartData.cart.productsInCart.find(item => item.productId === productId).productQty, // Set quantity from the count map
-              cartItemId: cartData.cart.productsInCart.find(item => item.productId === productId)._id
+              quantity: item.productQty,
+              cartItemId: item._id
             };
           }
           return null;
@@ -73,33 +63,40 @@ const CartItems = () => {
 
         const products = await Promise.all(productPromises);
         setCartItems(products.filter(product => product !== null));
-        setLoading(false);
-
       } catch (err) {
         setError('Error fetching cart items');
-        setLoading(false);
       }
-    };
-
-    fetchCartItems();
-  }, []);
+    } else {
+      // Load cart from localStorage for guest user
+      try {
+        const localCart = JSON.parse(localStorage.getItem('guestCart')) || [];
+        setCartItems(localCart);
+      } catch (err) {
+        setError('Error loading local cart');
+      }
+    }
+    setLoading(false);
+  };
 
   const handleQuantityChange = async (itemId, change) => {
-    const item = cartItems.find(item => item._id === itemId);
+    const userId = sessionStorage.getItem('userId');
+    const item = cartItems.find(item => item._id === itemId || item.productId === itemId);
     const newQuantity = item.quantity + change;
-  
-    if (newQuantity >= 1) {
-      // Update the quantity in the UI immediately
-      const updatedItems = cartItems.map(item => {
-        if (item._id === itemId) {
-          return { ...item, quantity: newQuantity };
-        }
-        return item;
-      });
-      setCartItems(updatedItems);
-  
+
+    if (newQuantity < 1) return;
+
+    // Update UI immediately
+    const updatedItems = cartItems.map(cartItem => {
+      if ((cartItem._id === itemId) || (cartItem.productId === itemId)) {
+        return { ...cartItem, quantity: newQuantity };
+      }
+      return cartItem;
+    });
+    setCartItems(updatedItems);
+
+    if (userId) {
+      // Update quantity for logged-in user
       try {
-        const userId = sessionStorage.getItem('userId');
         const response = await fetch('https://ecommercebackend-8gx8.onrender.com/cart/update-quantity', {
           method: 'PUT',
           headers: {
@@ -111,50 +108,64 @@ const CartItems = () => {
             productQty: newQuantity
           })
         });
-  
-        const data = await response.json();
-        if (!data.success) {
-          console.error('Failed to update quantity:', data.message);
-          // Note: We're not reverting the UI change here
+
+        if (!response.ok) {
+          console.error('Failed to update quantity on server');
         }
       } catch (err) {
         console.error('Error updating quantity:', err);
-        // Note: We're not reverting the UI change here
+      }
+    } else {
+      // Update quantity in localStorage for guest user
+      try {
+        localStorage.setItem('guestCart', JSON.stringify(updatedItems));
+      } catch (err) {
+        console.error('Error updating local cart:', err);
       }
     }
   };
-  
-  
+
   const handleRemoveItem = async (itemId) => {
-    const item = cartItems.find(item => item._id === itemId);
-  
-    // Immediately update the UI by removing the item
-    setCartItems(prevItems => prevItems.filter(item => item._id !== itemId));
-  
-    try {
-      const userId = sessionStorage.getItem('userId');
-      const response = await fetch('https://ecommercebackend-8gx8.onrender.com/cart/delete-items', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          userId,
-          productId: item.productId
-        })
-      });
-      
-      const data = await response.json();
-      if (!data.success) {
-        console.error('Failed to remove item from server:', data.message);
-        // Note: We're not reverting the UI change here
+    const userId = sessionStorage.getItem('userId');
+    const item = cartItems.find(item => item._id === itemId || item.productId === itemId);
+
+    // Update UI immediately
+    setCartItems(prevItems => prevItems.filter(cartItem => 
+      (cartItem._id !== itemId) && (cartItem.productId !== itemId)
+    ));
+
+    if (userId) {
+      // Remove item for logged-in user
+      try {
+        const response = await fetch('https://ecommercebackend-8gx8.onrender.com/cart/delete-items', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            userId,
+            productId: item.productId
+          })
+        });
+        
+        if (!response.ok) {
+          console.error('Failed to remove item from server');
+        }
+      } catch (err) {
+        console.error('Error removing item:', err);
       }
-    } catch (err) {
-      console.error('Error removing item:', err);
-      // Note: We're not reverting the UI change here
+    } else {
+      // Remove item from localStorage for guest user
+      try {
+        const updatedCart = cartItems.filter(cartItem => 
+          (cartItem._id !== itemId) && (cartItem.productId !== itemId)
+        );
+        localStorage.setItem('guestCart', JSON.stringify(updatedCart));
+      } catch (err) {
+        console.error('Error updating local cart:', err);
+      }
     }
   };
-  
 
   const calculateTotal = () => {
     const subtotal = cartItems.reduce((total, item) => {
@@ -233,7 +244,7 @@ const CartItems = () => {
         <div className="p-4 space-y-4">
           {cartItems.map((item) => (
             <div
-              key={item._id}
+              key={item._id || item.productId}
               className="flex flex-col md:flex-row items-center justify-between border-b pb-4 last:border-b-0"
             >
               <div className="flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-4 w-full">
@@ -254,19 +265,19 @@ const CartItems = () => {
                     
                     <div className="flex items-center border rounded-md">
                       <button 
-                        onClick={() => handleQuantityChange(item._id, -1)}
+                        onClick={() => handleQuantityChange(item._id || item.productId, -1)}
                         className="px-2 py-1 text-gray-600 hover:bg-gray-100"
                       >
                         <FontAwesomeIcon icon={faMinus} className="text-sm" />
                       </button>
                       <input
                         type="text"
-                        value={item.quantity }
+                        value={item.quantity}
                         readOnly
                         className="w-12 text-center border-none text-sm"
                       />
                       <button 
-                        onClick={() => handleQuantityChange(item._id, 1)}
+                        onClick={() => handleQuantityChange(item._id || item.productId, 1)}
                         className="px-2 py-1 text-gray-600 hover:bg-gray-100"
                       >
                         <FontAwesomeIcon icon={faPlus} className="text-sm" />
@@ -274,11 +285,11 @@ const CartItems = () => {
                     </div>
                     
                     <span className="font-medium text-base">
-                      Rs. {(parseFloat(item.price.replace(/[^\d.]/g, '')) * (item.quantity || 1)).toFixed(2)}
+                      Rs. {(parseFloat(item.price.replace(/[^\d.]/g, '')) * item.quantity).toFixed(2)}
                     </span>
                     
                     <button 
-                      onClick={() => handleRemoveItem(item._id)}
+                      onClick={() => handleRemoveItem(item._id || item.productId)}
                       className="text-red-500 hover:text-red-700 transition-colors"
                     >
                       <FontAwesomeIcon icon={faTrash} />
@@ -322,14 +333,14 @@ const CartItems = () => {
             <div className="flex flex-col md:flex-row justify-between">
               <span>Subtotal</span>
               <span>Rs. {cartItems.reduce((total, item) => 
-                total + (parseFloat(item.price.replace(/[^\d.]/g, '')) * (item.quantity || 1)), 
+                total + (parseFloat(item.price.replace(/[^\d.]/g, '')) * item.quantity), 
                 0).toFixed(2)}</span>
             </div>
             {discountInfo.percentage > 0 && (
               <div className="flex flex-col md:flex-row justify-between text-green-600">
                 <span>Discount ({discountInfo.percentage}%)</span>
                 <span>- Rs. {(cartItems.reduce((total, item) => 
-                  total + (parseFloat(item.price.replace(/[^\d.]/g, '')) * (item.quantity || 1)), 
+                  total + (parseFloat(item.price.replace(/[^\d.]/g, '')) * item.quantity), 
                   0) * (discountInfo.percentage / 100)).toFixed(2)}</span>
               </div>
             )}

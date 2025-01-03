@@ -1,61 +1,57 @@
-import { useState } from "react";
+import React, { useState } from 'react';
 import { Eye, EyeOff, User, Mail, Phone, Lock } from 'lucide-react';
-import { useAuth } from '../../context/AuthContext';
-import Navbar from "../../components/user/navbar/navbar";
-import { motion } from 'framer-motion';
-import { Helmet } from "react-helmet";
+import ProfessionalNavbar from '../../components/user/navbar/navbar';
+import Footer from '../../components/user/footer/footer';
 
-export default function SignUp() {
+const SignUp = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const { signup } = useAuth();
   const [error, setError] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [name, setName] = useState('');
-  const [mobile, setMobile] = useState('');
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    mobile: '',
+    password: '',
+    confirmPassword: ''
+  });
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (password !== confirmPassword) {
+    if (formData.password !== formData.confirmPassword) {
       setError('Passwords do not match');
       return;
     }
     try {
-      await signup(name, email, password, mobile);
-      window.location.href = '/HomePage';
-    } catch (err) {
-      setError('Error signing up. Try again.');
+      console.log('Signup attempt:', formData);
+    } catch (error) {
+      setError('Error signing up. Please try again.');
     }
   };
 
   return (
     <>
-      <Helmet>
-        <title>Sign Up | Mera Bestie</title>
-      </Helmet>
-      <div className="min-h-screen bg-gradient-to-br from-pink-50 to-pink-100 flex items-center justify-center p-4">
-        <div className="fixed top-0 left-0 w-full z-50">
-          <Navbar />
-        </div>
-        
-        <motion.div 
-          className="w-full max-w-md bg-white shadow-2xl rounded-2xl overflow-hidden mt-auto"
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ 
-            duration: 0.5,
-            type: "spring",
-            stiffness: 120
-          }}
-        >
+      <ProfessionalNavbar/>
+      <div className="min-h-screen bg-[#f8f8f8]">
+      <div className="fixed top-0 left-0 w-full z-50 bg-white shadow-md">
+        {/* Navbar placeholder */}
+        <div className="h-16"></div>
+      </div>
+      
+      <div className="container mx-auto px-4 pt-24 pb-12">
+        <div className="max-w-md mx-auto bg-white rounded-xl shadow-lg overflow-hidden">
           <div className="p-8">
             <div className="text-center mb-8">
-              <h2 className="text-4xl font-extrabold text-gray-900 mx-5 tracking-tight">
-                Create Your Account
+              <h2 className="text-4xl font-extrabold text-gray-900 tracking-tight">
+                Create Account
               </h2>
-              <p className="text-pink-600 mt-2">
-                Join Mera Bestie
+              <p className="text-[#c17979] mt-2 font-light tracking-wide">
+                Join our community
               </p>
             </div>
 
@@ -66,109 +62,113 @@ export default function SignUp() {
             )}
 
             <form onSubmit={handleSubmit} className="space-y-6">
-              {/* Name Input */}
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <User className="text-pink-400" />
+                  <User className="text-[#c17979]" size={20} />
                 </div>
                 <input
                   type="text"
+                  name="name"
                   placeholder="Full Name"
                   required
-                  className="w-full pl-10 pr-4 py-3 border border-pink-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500 transition duration-300"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
+                  className="w-full pl-10 pr-4 py-3 border border-[#fed2cb] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#c17979] transition duration-300"
+                  value={formData.name}
+                  onChange={handleChange}
                 />
               </div>
 
-              {/* Email Input */}
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Mail className="text-pink-400" />
+                  <Mail className="text-[#c17979]" size={20} />
                 </div>
                 <input
                   type="email"
+                  name="email"
                   placeholder="Email Address"
                   required
-                  className="w-full pl-10 pr-4 py-3 border border-pink-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500 transition duration-300"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  className="w-full pl-10 pr-4 py-3 border border-[#fed2cb] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#c17979] transition duration-300"
+                  value={formData.email}
+                  onChange={handleChange}
                 />
               </div>
 
-              {/* Mobile Input */}
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Phone className="text-pink-400" />
+                  <Phone className="text-[#c17979]" size={20} />
                 </div>
                 <input
                   type="tel"
+                  name="mobile"
                   placeholder="Mobile Number"
                   required
-                  className="w-full pl-10 pr-4 py-3 border border-pink-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500 transition duration-300"
-                  value={mobile}
-                  onChange={(e) => setMobile(e.target.value)}
+                  className="w-full pl-10 pr-4 py-3 border border-[#fed2cb] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#c17979] transition duration-300"
+                  value={formData.mobile}
+                  onChange={handleChange}
                 />
               </div>
 
-              {/* Password Input */}
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Lock className="text-pink-400" />
+                  <Lock className="text-[#c17979]" size={20} />
                 </div>
                 <input
                   type={showPassword ? "text" : "password"}
+                  name="password"
                   placeholder="Password"
                   required
-                  className="w-full pl-10 pr-12 py-3 border border-pink-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500 transition duration-300"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  className="w-full pl-10 pr-12 py-3 border border-[#fed2cb] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#c17979] transition duration-300"
+                  value={formData.password}
+                  onChange={handleChange}
                 />
                 <button
                   type="button"
-                  className="absolute inset-y-0 right-0 pr-3 flex items-center text-pink-400 hover:text-pink-600 transition"
+                  className="absolute inset-y-0 right-0 pr-3 flex items-center text-[#c17979] hover:text-[#be5959] transition"
                   onClick={() => setShowPassword(!showPassword)}
                 >
                   {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
                 </button>
               </div>
 
-              {/* Confirm Password Input */}
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Lock className="text-pink-400" />
+                  <Lock className="text-[#c17979]" size={20} />
                 </div>
                 <input
                   type="password"
+                  name="confirmPassword"
                   placeholder="Confirm Password"
                   required
-                  className="w-full pl-10 pr-4 py-3 border border-pink-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500 transition duration-300"
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  className="w-full pl-10 pr-4 py-3 border border-[#fed2cb] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#c17979] transition duration-300"
+                  value={formData.confirmPassword}
+                  onChange={handleChange}
                 />
               </div>
 
-              {/* Submit Button */}
-              <motion.button
-                type="submit"
-                className="w-full bg-pink-500 text-white py-3 rounded-lg font-semibold hover:bg-pink-600 transition duration-300 transform active:scale-95"
-                whileTap={{ scale: 0.95 }}
-              >
-                Create Account
-              </motion.button>
+              <div className="space-y-4">
+                <button
+                  type="submit"
+                  className="w-full bg-[#c17979] text-white py-3 rounded-lg font-semibold hover:bg-[#be5959] transition duration-300 transform active:scale-95"
+                >
+                  Create Account
+                </button>
+              </div>
             </form>
 
             <div className="mt-6 text-center">
-              <p className="text-gray-600 text-sm">
-                Already have an account? 
-                <a href="/login" className="text-pink-600 hover:text-pink-800 ml-2 font-semibold">
-                  Log In
+              <p className="text-gray-600">
+                Already have an account?{' '}
+                <a href="/login" className="text-[#c17979] hover:text-[#be5959] font-semibold">
+                  Sign In
                 </a>
               </p>
             </div>
           </div>
-        </motion.div>
+        </div>
       </div>
+    </div>
+    <Footer/>
     </>
   );
-}
+};
+
+export default SignUp;

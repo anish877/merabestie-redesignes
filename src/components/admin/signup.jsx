@@ -45,7 +45,7 @@ const AdminSignup = () => {
     }
 
     try {
-      const response = await fetch('https://ecommercebackend-8gx8.onrender.com/seller/signup', {
+      const response = await fetch('https://ecommercebackend-8gx8.onrender.com/admin/seller/signup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -58,7 +58,7 @@ const AdminSignup = () => {
       });
 
       const data = await response.json();
-
+      console.log(data)
       if (response.ok) {
         setShowVerificationOptions(true);
       } else {
@@ -73,7 +73,7 @@ const AdminSignup = () => {
   const handleVerificationMethodSelect = async (method) => {
     setVerificationMethod(method);
     try {
-      const response = await fetch('https://ecommercebackend-8gx8.onrender.com/seller/send-otp', {
+      const response = await fetch('https://ecommercebackend-8gx8.onrender.com/admin/seller/send-otp', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
