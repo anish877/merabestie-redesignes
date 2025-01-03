@@ -106,7 +106,7 @@ const HomePage = () => {
             </div>
 
             {/* Banner Sections */}
-            <div className="order-4 md:order-2 md:col-span-7 md:row-span-2 bg-[url(https://demo2.themelexus.com/gifymo/wp-content/uploads/2021/05/h1-banner1.jpg)] rounded-xl bg-cover p-8 flex items-center hover:scale-105 transition-all ease-in-out duration-500">
+            <div className="order-4 md:order-2 md:col-span-7 md:row-span-2 bg-[url(https://demo2.themelexus.com/gifymo/wp-content/uploads/2021/05/h1-banner1.jpg)] rounded-xl bg-cover p-8 flex items-center ">
               <div className="flex flex-col justify-center items-center gap-4 md:gap-5 font-light tracking-widest text-center">
                 <p>Clearance Sale</p>
                 <p className="font-base text-3xl md:text-5xl tracking-wider pb-2">Women's Day</p>
@@ -116,7 +116,7 @@ const HomePage = () => {
               </div>
             </div>
 
-            <div className="order-5 md:order-3 md:col-span-5 md:row-span-2 bg-[url(https://demo2.themelexus.com/gifymo/wp-content/uploads/2021/05/h1-banner2.jpg)] rounded-xl bg-cover flex justify-center items-center  hover:scale-105 transition-all ease-in-out duration-500">
+            <div className="order-5 md:order-3 md:col-span-5 md:row-span-2 bg-[url(https://demo2.themelexus.com/gifymo/wp-content/uploads/2021/05/h1-banner2.jpg)] rounded-xl bg-cover flex justify-center items-center">
               <div className="bg-white p-8 md:p-14 text-center">
                 <p>Holiday Offers</p>
                 <p className="text-2xl md:text-4xl font">Sale 50% Off</p>
@@ -126,7 +126,7 @@ const HomePage = () => {
 
             {/* Bottom Banners */}
             <div className="order-6 md:order-5 md:col-span-4 md:row-span-2">
-              <div className="bg-[url('https://demo2.themelexus.com/gifymo/wp-content/uploads/2021/05/h1-banner3.jpg')] flex flex-col justify-center items-center h-full w-full gap-4 md:gap-5 pb-12 md:pb-24 bg-cover rounded-xl font-extralight text-center  hover:scale-105 transition-all ease-in-out duration-500">
+              <div className="bg-[url('https://demo2.themelexus.com/gifymo/wp-content/uploads/2021/05/h1-banner3.jpg')] flex flex-col justify-center items-center h-full w-full gap-4 md:gap-5 pb-12 md:pb-24 bg-cover rounded-xl font-extralight text-center">
                 <p>Shop Online Gifts Under</p>
                 <p className="text-3xl md:text-4xl font-semibold">₹19.99</p>
                 <Link to={"/shop"}>
@@ -136,7 +136,7 @@ const HomePage = () => {
             </div>
 
             <div className="order-7 md:order-6 md:col-span-8 md:row-span-2">
-              <div className="bg-[url('https://demo2.themelexus.com/gifymo/wp-content/uploads/2021/05/h1-banner4.jpg')] flex flex-col gap-4 md:gap-5 w-full h-full justify-center items-center rounded-xl text-center  hover:scale-105 transition-all ease-in-out duration-500">
+              <div className="bg-[url('https://demo2.themelexus.com/gifymo/wp-content/uploads/2021/05/h1-banner4.jpg')] flex flex-col gap-4 md:gap-5 w-full h-full justify-center items-center rounded-xl text-center">
                 <p>AMAZING GIFTS</p>
                 <p className="text-3xl md:text-4xl font-semibold">30% Off home decor</p>
                 <Link to={"/shop"}>

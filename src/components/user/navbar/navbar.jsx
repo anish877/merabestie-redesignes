@@ -150,17 +150,12 @@ const ProfessionalNavbar = () => {
           <ChevronDownIcon size={15} className="text-gray-600" strokeWidth={2.5}/>
         </div>
       </Link>
-      <div className="flex gap-1 items-center hover:bg-[#ffa7a781] hover:text-[#8b5858] p-1.5 px-2 transition-all duration-500 rounded-xl">
-        <p className="cursor-pointer">PAGES</p>
-        <ChevronDownIcon size={15} className="text-gray-600" strokeWidth={2.5}/>
-      </div>
-      <div className="flex gap-1 items-center hover:bg-[#ffa7a781] hover:text-[#8b5858] p-1.5 px-2 transition-all duration-500 rounded-xl">
+      <Link to={"/about"}>
+        <div className="flex gap-1 items-center hover:bg-[#ffa7a781] hover:text-[#8b5858] p-1.5 px-2 transition-all duration-500 rounded-xl">
         <p className="cursor-pointer">OUR STORY</p>
       </div>
-      <div className="flex gap-1 items-center hover:bg-[#ffa7a781] hover:text-[#8b5858] p-1.5 px-2 transition-all duration-500 rounded-xl">
-        <p className="cursor-pointer">BLOG</p>
-        <ChevronDownIcon size={15} className="text-gray-600" strokeWidth={2.5}/>
-      </div>
+      </Link>
+      
       <Link to="/contact">
         <div className="flex gap-1 items-center hover:bg-[#ffa7a781] hover:text-[#8b5858] p-1.5 px-2 transition-all duration-500 rounded-xl">
           <p className="cursor-pointer">CONTACT</p>
