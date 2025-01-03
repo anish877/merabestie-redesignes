@@ -25,7 +25,7 @@ const CouponPage = () => {
       }
 
       try {
-        const response = await fetch('https://ecommercebackend-8gx8.onrender.com/admin/verify-seller', {
+        const response = await fetch('https://merabestie-backend.onrender.com/admin/verify-seller', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -53,7 +53,7 @@ const CouponPage = () => {
 
   const fetchCoupons = async () => {
     try {
-      const response = await fetch('https://ecommercebackend-8gx8.onrender.com/coupon/get-coupon');
+      const response = await fetch('https://merabestie-backend.onrender.com/coupon/get-coupon');
       const data = await response.json();
       if (data.success) {
         setCoupons(data.coupons);
@@ -82,7 +82,7 @@ const CouponPage = () => {
 
   const handleDeleteCoupon = async (code, discountPercentage) => {
     try {
-      const response = await fetch('https://ecommercebackend-8gx8.onrender.com/coupon/delete-coupon', {
+      const response = await fetch('https://merabestie-backend.onrender.com/coupon/delete-coupon', {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json'
@@ -111,7 +111,7 @@ const CouponPage = () => {
     }
 
     try {
-      const response = await fetch('https://ecommercebackend-8gx8.onrender.com/coupon/save-coupon', {
+      const response = await fetch('https://merabestie-backend.onrender.com/coupon/save-coupon', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

@@ -20,7 +20,7 @@ const ProductDetail = () => {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const response = await fetch(`https://ecommercebackend-8gx8.onrender.com/product/${productId}`);
+        const response = await fetch(`https://merabestie-backend.onrender.com/product/${productId}`);
         const data = await response.json();
         if (data.success) {
           setProduct(data.product);
@@ -79,7 +79,7 @@ const ProductDetail = () => {
 
     if (userId) {
       try {
-        const response = await fetch('https://ecommercebackend-8gx8.onrender.com/cart/addtocart', {
+        const response = await fetch('https://merabestie-backend.onrender.com/cart/addtocart', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

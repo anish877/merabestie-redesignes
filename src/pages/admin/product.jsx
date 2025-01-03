@@ -32,7 +32,7 @@ const Product = () => {
       }
 
       try {
-        const response = await fetch('https://ecommercebackend-8gx8.onrender.com/admin/verify-seller', {
+        const response = await fetch('https://merabestie-backend.onrender.com/admin/verify-seller', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -60,7 +60,7 @@ const Product = () => {
 
   const fetchProducts = async () => {
     try {
-      const response = await fetch('https://ecommercebackend-8gx8.onrender.com/get-product');
+      const response = await fetch('https://merabestie-backend.onrender.com/get-product');
       const data = await response.json();
       setProducts(data.products);
     } catch (error) {
@@ -81,7 +81,7 @@ const Product = () => {
 
   const handleSave = async (productId) => {
     try {
-      const response = await fetch('https://ecommercebackend-8gx8.onrender.com/instock-update', {
+      const response = await fetch('https://merabestie-backend.onrender.com/instock-update', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json'

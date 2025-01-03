@@ -64,7 +64,7 @@ const Checkout = () => {
     try {
       if (userId) {
         // Fetch from backend if user is logged in
-        const cartResponse = await fetch(`https://ecommercebackend-8gx8.onrender.com/cart/get-cart`, {
+        const cartResponse = await fetch(`https://merabestie-backend.onrender.com/cart/get-cart`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -93,7 +93,7 @@ const Checkout = () => {
 
         const productPromises = Object.values(groupedItems).map(async (item) => {
           console.log(item)
-          const productResponse = await fetch(`https://ecommercebackend-8gx8.onrender.com/product/${item.productId}`);
+          const productResponse = await fetch(`https://merabestie-backend.onrender.com/product/${item.productId}`);
           const productData = await productResponse.json();
           
           if (productData.success) {
@@ -113,7 +113,7 @@ const Checkout = () => {
         
         // Fetch product details for local cart items
         const productPromises = localCartItems.map(async (item) => {
-          const productResponse = await fetch(`https://ecommercebackend-8gx8.onrender.com/product/${item.productId}`);
+          const productResponse = await fetch(`https://merabestie-backend.onrender.com/product/${item.productId}`);
           const productData = await productResponse.json();
           
           if (productData.success) {
@@ -182,7 +182,7 @@ const Checkout = () => {
     
     if (saveAddress && userId) {
       try {
-        await fetch('https://ecommercebackend-8gx8.onrender.com/update-address', {
+        await fetch('https://merabestie-backend.onrender.com/update-address', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -209,7 +209,7 @@ const Checkout = () => {
     try {
       if (userId) {
         // Place order through backend if logged in
-        const response = await fetch('https://ecommercebackend-8gx8.onrender.com/cart/place-order', {
+        const response = await fetch('https://merabestie-backend.onrender.com/cart/place-order', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'

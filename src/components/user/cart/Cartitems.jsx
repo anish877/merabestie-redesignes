@@ -23,7 +23,7 @@ const CartItems = () => {
 
     if (userId) {
       try {
-        const cartResponse = await fetch(`https://ecommercebackend-8gx8.onrender.com/cart/get-cart`, {
+        const cartResponse = await fetch(`https://merabestie-backend.onrender.com/cart/get-cart`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ userId })
@@ -37,7 +37,7 @@ const CartItems = () => {
         }
 
         const productPromises = cartData.cart.productsInCart.map(async (item) => {
-          const productResponse = await fetch('https://ecommercebackend-8gx8.onrender.com/:productId', {
+          const productResponse = await fetch('https://merabestie-backend.onrender.com/:productId', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ productId: item.productId })
@@ -84,7 +84,7 @@ const CartItems = () => {
 
     if (userId) {
       try {
-        await fetch('https://ecommercebackend-8gx8.onrender.com/cart/update-quantity', {
+        await fetch('https://merabestie-backend.onrender.com/cart/update-quantity', {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -111,7 +111,7 @@ const CartItems = () => {
 
     if (userId) {
       try {
-        await fetch('https://ecommercebackend-8gx8.onrender.com/cart/delete-items', {
+        await fetch('https://merabestie-backend.onrender.com/cart/delete-items', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -132,7 +132,7 @@ const CartItems = () => {
 
   const handleVoucherRedeem = async () => {
     try {
-      const response = await fetch('https://ecommercebackend-8gx8.onrender.com/coupon/verify-coupon', {
+      const response = await fetch('https://merabestie-backend.onrender.com/coupon/verify-coupon', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ code: voucher })
