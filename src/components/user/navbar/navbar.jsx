@@ -1,13 +1,11 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { 
   RiSearchLine, 
   RiCloseLine,  
   RiFileList3Line,
   RiLogoutBoxRLine,
-  RiLoginBoxLine,
-  RiUserAddLine,
-  RiStore2Line,
+  RiMenu2Line
 } from "react-icons/ri";
 import SearchBar from "./SearchBar";
 import { ChevronDownIcon, Headset, ShoppingCart, Truck } from "lucide-react";
@@ -20,44 +18,82 @@ const ProfessionalNavbar = () => {
   const [cartItemCount, setCartItemCount] = useState(0);
   const [cartTotal, setCartTotal] = useState(0);
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const searchRef = useRef();
   const profileRef = useRef();
   
   const toggleSearch = () => setIsSearchOpen(!isSearchOpen);
   const toggleProfileMenu = () => setIsProfileMenuOpen(!isProfileMenuOpen);
+  const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
   const isActive = (path) => location.pathname === path;
 
   useEffect(() => {
     const fetchCartItems = async () => {
-      const userId = sessionStorage.getItem("userId");
-      if (!userId) return;
+      // First check localStorage
+      const localCartItems = localStorage.getItem('guestCart');
+      let localCount = 0;
+      let localTotal = 0;
 
-      try {
-        const cartResponse = await fetch(
-          `https://ecommercebackend-8gx8.onrender.com/cart/get-cart`, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ userId })
-          }
-        );
-        const cartData = await cartResponse.json();
-        
-        if (cartData.success && cartData.cart && Array.isArray(cartData.cart.productsInCart)) {
-          const total = cartData.cart.productsInCart.reduce((sum, item) => sum + 1, 0);
-          const cartTotal = cartData.cart.productsInCart.reduce((sum, item) => sum + item.price, 0);
-          setCartItemCount(total);
-          setCartTotal(cartTotal);
+      if (localCartItems) {
+        try {
+          const parsedLocalCart = JSON.parse(localCartItems);
+          localCount = Array.isArray(parsedLocalCart) ? parsedLocalCart.reduce((sum, item) => sum + (item.quantity || 1), 0) : 0;
+          localTotal = Array.isArray(parsedLocalCart) ? parsedLocalCart.reduce((sum, item) => sum + (item.price * (item.quantity || 1)), 0) : 0;
+        } catch (error) {
+          console.error("Error parsing localStorage cart:", error);
         }
-      } catch (error) {
-        console.error("Error fetching cart:", error);
       }
+
+      // Then check sessionStorage for logged-in user's cart
+      const userId = sessionStorage.getItem("userId");
+      if (userId) {
+        try {
+          const cartResponse = await fetch(
+            `https://ecommercebackend-8gx8.onrender.com/cart/get-cart`, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({ userId })
+            }
+          );
+          const cartData = await cartResponse.json();
+          
+          if (cartData.success && cartData.cart && Array.isArray(cartData.cart.productsInCart)) {
+            const serverCount = cartData.cart.productsInCart.reduce((sum, item) => sum + 1, 0);
+            const serverTotal = cartData.cart.productsInCart.reduce((sum, item) => sum + item.price, 0);
+            
+            // Use server data if available, otherwise use localStorage data
+            setCartItemCount(serverCount);
+            setCartTotal(serverTotal);
+            return;
+          }
+        } catch (error) {
+          console.error("Error fetching cart from server:", error);
+        }
+      }
+
+      // If no server data is available, use localStorage counts
+      setCartItemCount(localCount);
+      setCartTotal(localTotal);
     };
 
     fetchCartItems();
+
+    // Add localStorage event listener
+    const handleStorageChange = (e) => {
+      if (e.key === 'cartItems') {
+        fetchCartItems();
+      }
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+    };
   }, []);
 
+  // Rest of the component remains the same
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (searchRef.current && !searchRef.current.contains(event.target)) {
@@ -100,9 +136,43 @@ const ProfessionalNavbar = () => {
 
   const userId = sessionStorage.getItem("userId");
 
+  const NavLinks = () => (
+    <>
+      <Link to={"/"}>
+        <div className="flex gap-1 items-center hover:bg-[#ffa7a781] hover:text-[#8b5858] p-1.5 px-2 transition-all duration-500 rounded-xl">
+          <p className="cursor-pointer">HOME</p>
+          <ChevronDownIcon size={15} className="text-gray-600" strokeWidth={2.5}/>
+        </div>
+      </Link>
+      <Link to={"/shop"}>
+        <div className="flex gap-1 items-center hover:bg-[#ffa7a781] hover:text-[#8b5858] p-1.5 px-2 transition-all duration-500 rounded-xl">
+          <p className="cursor-pointer">SHOP</p>
+          <ChevronDownIcon size={15} className="text-gray-600" strokeWidth={2.5}/>
+        </div>
+      </Link>
+      <div className="flex gap-1 items-center hover:bg-[#ffa7a781] hover:text-[#8b5858] p-1.5 px-2 transition-all duration-500 rounded-xl">
+        <p className="cursor-pointer">PAGES</p>
+        <ChevronDownIcon size={15} className="text-gray-600" strokeWidth={2.5}/>
+      </div>
+      <div className="flex gap-1 items-center hover:bg-[#ffa7a781] hover:text-[#8b5858] p-1.5 px-2 transition-all duration-500 rounded-xl">
+        <p className="cursor-pointer">OUR STORY</p>
+      </div>
+      <div className="flex gap-1 items-center hover:bg-[#ffa7a781] hover:text-[#8b5858] p-1.5 px-2 transition-all duration-500 rounded-xl">
+        <p className="cursor-pointer">BLOG</p>
+        <ChevronDownIcon size={15} className="text-gray-600" strokeWidth={2.5}/>
+      </div>
+      <Link to="/contact">
+        <div className="flex gap-1 items-center hover:bg-[#ffa7a781] hover:text-[#8b5858] p-1.5 px-2 transition-all duration-500 rounded-xl">
+          <p className="cursor-pointer">CONTACT</p>
+        </div>
+      </Link>
+    </>
+  );
+
   return (
-    <div>
-      <div className="border-b border-gray-200 flex gap-4 p-4 text-sm justify-end pr-10">
+    <div className="relative">
+      {/* Top Bar */}
+      <div className="border-b border-gray-200 flex flex-wrap gap-2 p-2 md:p-4 text-sm justify-end pr-4 md:pr-10">
         {userId ? (
           <div className="relative" ref={profileRef}>
             <button onClick={toggleProfileMenu} className="hover:text-[#be7474]">Hi, {userName}</button>
@@ -120,88 +190,92 @@ const ProfessionalNavbar = () => {
             )}
           </div>
         ) : (
-          <>
+          <div className="flex gap-2 flex-wrap">
             <Link to="/login" className="hover:text-[#be7474]">Login</Link>
             <Link to="/Signup" className="hover:text-[#be7474]">Register</Link>
             <Link to="/seller/login" className="hover:text-[#be7474]">Seller</Link>
-          </>
+          </div>
         )}
-        <Link to="/about" className="font-light text-gray-500 hover:text-[#be7474]">About Us</Link>
-        <button className="font-light text-gray-500 hover:text-[#be7474]">Track Orders</button>
-        <button className="font-light text-gray-500 hover:text-[#be7474]">FAQ</button>
+        <div className="flex gap-2 flex-wrap">
+          <Link to="/about" className="font-light text-gray-500 hover:text-[#be7474]">About Us</Link>
+          <button className="font-light text-gray-500 hover:text-[#be7474]">Track Orders</button>
+          <button className="font-light text-gray-500 hover:text-[#be7474]">FAQ</button>
+        </div>
       </div>
-      <div className="grid grid-cols-4 justify-center items-center p-4 pl-8 pr-0 pb-12 pt-12 border-b-4 border-gray-200 border-dotted">
-        <Link to={"/"}>
-          <div className="col-span-1 flex justify-start items-center text-5xl font-extrabold text-[#be7474] italic">
+
+      {/* Main Header */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 justify-center items-center p-4 md:p-8 border-b-4 border-gray-200 border-dotted">
+        <Link to={"/"} className="col-span-1">
+          <div className="flex justify-start items-center text-3xl md:text-5xl font-extrabold text-[#be7474] italic">
             <h1>mera<span className="text-black">bestie</span></h1>
           </div>
         </Link>
         
-        <div className="col-span-1 flex justify-center gap-4 items-center">
+        <div className="hidden md:flex col-span-1 justify-center gap-4 items-center">
           <Truck size={40} strokeWidth={1} className="hover:text-[#be7474]"/>
           <div className="flex flex-col gap-1.5 font-light">
             <p className="text-xs text-gray-500 hover:text-[#be7474]">Free standard shipping</p>
             <p>on all orders over $99</p>
           </div>
         </div>
-        <div className="col-span-1 flex justify-center gap-4 items-center">
+        
+        <div className="hidden md:flex col-span-1 justify-center gap-4 items-center">
           <Headset size={40} strokeWidth={1} className="hover:text-[#be7474]"/>
           <div className="flex flex-col gap-1.5 font-light">
             <p className="text-xs text-gray-500 hover:text-[#be7474]">support@example.com</p>
             <p>012 - 345 - 6789</p>
           </div>
         </div>
-        <Link to="/cart" className="col-span-1 flex justify-center gap-4 items-center">
+
+        <Link to="/cart" className="col-span-1 flex justify-end md:justify-center gap-4 items-center">
           <div className="relative">
-            <ShoppingCart size={40} strokeWidth={1} className="hover:text-[#be7474]"/>
+            <ShoppingCart size={32} strokeWidth={1} className="hover:text-[#be7474]"/>
             {cartItemCount > 0 && (
               <span className="absolute -top-2 -right-2 bg-[#be7474] text-white rounded-full text-xs w-5 h-5 flex items-center justify-center">
                 {cartItemCount}
               </span>
             )}
           </div>
-          <div className="flex flex-col gap-1.5 font-light">
+          <div className="hidden md:flex flex-col gap-1.5 font-light">
             <p className="text-xs text-gray-500 hover:text-[#be7474]">Cart: {cartItemCount} items</p>
+            {cartTotal > 0 && (
+              <p className="text-xs text-gray-500">${cartTotal.toFixed(2)}</p>
+            )}
           </div>
         </Link>
       </div>
-      <div className="flex items-center justify-between pl-10 pr-10 pt-6 pb-6 border-b-4 border-dotted">
-        <div className="flex gap-8">
-          <Link to={"/"}>
-            <div className="flex gap-1 items-center hover:bg-[#ffa7a781] hover:text-[#8b5858] p-1.5 px-2 transition-all duration-500 rounded-xl">
-              <p className="font- cursor-pointer">HOME</p>
-              <ChevronDownIcon size={15} className="text-gray-600" strokeWidth={2.5}/>
-            </div>
-          </Link>
-          
-          <Link to={"/shop"} className="p-0 m-0">
-            <div className="flex gap-1 items-center hover:bg-[#ffa7a781] hover:text-[#8b5858] p-1.5 px-2 transition-all duration-500 rounded-xl">
-              <p className="font- cursor-pointer">SHOP</p>
-              <ChevronDownIcon size={15} className="text-gray-600" strokeWidth={2.5}/>
-            </div>
-          </Link>
-          <div className="flex gap-1 items-center hover:bg-[#ffa7a781] hover:text-[#8b5858] p-1.5 px-2 transition-all duration-500 rounded-xl">
-            <p className="font- cursor-pointer">PAGES</p>
-            <ChevronDownIcon size={15} className="text-gray-600" strokeWidth={2.5}/>
-          </div>
-          <div className="flex gap-1 items-center hover:bg-[#ffa7a781] hover:text-[#8b5858] p-1.5 px-2 transition-all duration-500 rounded-xl">
-            <p className="font- cursor-pointer">OUR STORY</p>
-          </div>
-          <div className="flex gap-1 items-center hover:bg-[#ffa7a781] hover:text-[#8b5858] p-1.5 px-2 transition-all duration-500 rounded-xl">
-            <p className="font- cursor-pointer">BLOG</p>
-            <ChevronDownIcon size={15} className="text-gray-600" strokeWidth={2.5}/>
-          </div>
-          <Link to="/contact">
-            <div className="flex gap-1 items-center hover:bg-[#ffa7a781] hover:text-[#8b5858] p-1.5 px-2 transition-all duration-500 rounded-xl">
-              <p className="font- cursor-pointer">CONTACT</p>
-            </div>
-          </Link>
+
+      {/* Navigation Bar */}
+      <div className="flex items-center justify-between px-4 md:px-10 py-4 md:py-6 border-b-4 border-dotted">
+        <button onClick={toggleMobileMenu} className="md:hidden">
+          <RiMenu2Line size={24} />
+        </button>
+
+        {/* Desktop Navigation */}
+        <div className="hidden md:flex gap-8">
+          <NavLinks />
         </div>
+
         <button onClick={toggleSearch} className="hover:text-[#be7474]">
           <RiSearchLine size={24} />
         </button>
       </div>
 
+      {/* Mobile Menu */}
+      {isMobileMenuOpen && (
+        <div className="fixed inset-0 bg-white z-50 md:hidden">
+          <div className="p-4">
+            <button onClick={toggleMobileMenu} className="mb-4">
+              <RiCloseLine size={24} />
+            </button>
+            <div className="flex flex-col gap-4">
+              <NavLinks />
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Search Overlay */}
       {isSearchOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
           <div className="bg-white p-4 rounded-lg w-full max-w-md mx-4" ref={searchRef}>

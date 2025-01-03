@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Minus, Plus, Trash2 } from "lucide-react";
+import { Gift, Minus, Plus, Trash2 } from "lucide-react";
 import emptyCart from '../../Images/empty_cart.webp';
 
 const CartItems = () => {
@@ -195,11 +195,11 @@ const CartItems = () => {
   }
 
   return (
-    <div className="grid grid-cols-12 bg-[#f8f8f8] p-6 gap-6">
+    <div className="grid grid-cols-12 bg gap-6 pb-24">
       <div className="col-span-12 lg:col-span-8">
         <div className="bg-white rounded-xl">
-          <div className="p-6 border-b border-dotted border-[#e7c1ba]">
-            <h2 className="text-2xl font-semibold text-[#c17979]">Your Cart</h2>
+          <div className="p-6 border-b-4 border-dotted border-gray-200">
+            <h2 className="text-xl font-thin tracking-widest">YOUR CART</h2>
           </div>
           <div className="p-6 space-y-6">
             {cartItems.map((item) => (
@@ -208,27 +208,27 @@ const CartItems = () => {
                   <img src={item.img} alt={item.name} className="w-full h-full object-cover" />
                 </div>
                 <div className="flex-1 space-y-2">
-                  <h3 className="font-semibold text-[#c17979]">{item.name}</h3>
+                  <h3 className="font-normal tracking-widest text-gray-700 text-lg">{item.name}</h3>
                   <p className="text-sm text-gray-500">{item.description}</p>
                   <div className="flex flex-wrap items-center gap-4">
-                    <span className="font-medium">Rs. {item.price}</span>
-                    <div className="flex items-center bg-[#fed2cb] rounded-lg">
+                    <span className="font-thin">Rs. {item.price}</span>
+                    <div className="flex items-center py-2 px-3 border border-gray-200">
                       <button onClick={() => handleQuantityChange(item._id || item.productId, -1)}
                         className="p-2 hover:bg-[#fcdbd6] rounded-l-lg transition-colors">
-                        <Minus size={16} className="text-[#c17979]" />
+                        <Minus size={16} className="" />
                       </button>
-                      <span className="w-12 text-center text-[#c17979]">{item.quantity}</span>
+                      <span className="w-12 text-center text-gray-500">{item.quantity}</span>
                       <button onClick={() => handleQuantityChange(item._id || item.productId, 1)}
                         className="p-2 hover:bg-[#fcdbd6] rounded-r-lg transition-colors">
-                        <Plus size={16} className="text-[#c17979]" />
+                        <Plus size={16} className="" />
                       </button>
                     </div>
-                    <span className="font-medium text-[#c17979]">
+                    <span className="font-medium font-lg tracking-widest">
                       Rs. {(parseFloat(item.price.replace(/[^\d.]/g, '')) * item.quantity).toFixed(2)}
                     </span>
                     <button onClick={() => handleRemoveItem(item._id || item.productId)}
-                      className="p-2 text-[#c17979] hover:bg-[#fed2cb] rounded-lg transition-colors">
-                      <Trash2 size={16} />
+                      className="p-2  rounded-lg transition-colors">
+                      <Trash2 size={16} className="hover:bg-[#fed2cb] hover:text-white text-gray-500" />
                     </button>
                   </div>
                 </div>
@@ -240,24 +240,24 @@ const CartItems = () => {
 
       <div className="col-span-12 lg:col-span-4">
         <div className="bg-white rounded-xl">
-          <div className="p-6 border-b border-dotted border-[#e7c1ba]">
-            <h2 className="text-2xl font-semibold text-[#c17979]">Order Summary</h2>
+          <div className="p-6 border-b-4 border-dotted border-gray-200">
+            <h2 className="text-3xl font-normal tracking-widest">ORDER SUMMARY</h2>
           </div>
           <div className="p-6 space-y-6">
             <div className="space-y-4">
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-4">
                 <input
                   type="text"
                   placeholder="Enter voucher code"
                   value={voucher}
                   onChange={(e) => setVoucher(e.target.value)}
-                  className="flex-1 border border-[#e7c1ba] rounded-lg px-4 py-2 focus:outline-none focus:border-[#c17979]"
+                  className="flex-1 border rounded-lg px-4 py-2 focus:outline-none focus:border-[#c17979]"
                 />
                 <button 
                   onClick={handleVoucherRedeem}
-                  className="px-4 py-2 bg-[#fed2cb] text-[#c17979] rounded-lg hover:bg-[#fcdbd6] transition-colors"
+                  className="px-4 py-2 pb-1 border-b-4 border-dashed font-light tracking-widest border-[#ff7f6b] hover:text-[#fcdbd6] transition-colors"
                 >
-                  Apply
+                  APPLY
                 </button>
               </div>
               {discountInfo.message && (
@@ -267,34 +267,37 @@ const CartItems = () => {
               )}
             </div>
 
-            <div className="space-y-4 text-[#c17979]">
+            <div className="space-y-4">
               <div className="flex justify-between">
                 <span>Subtotal</span>
-                <span>Rs. {cartItems.reduce((total, item) => 
+                <span className="font-thin tracking-widest">Rs. {cartItems.reduce((total, item) => 
                   total + (parseFloat(item.price.replace(/[^\d.]/g, '')) * item.quantity), 
                   0).toFixed(2)}</span>
               </div>
               {discountInfo.percentage > 0 && (
                 <div className="flex justify-between text-green-600">
                   <span>Discount ({discountInfo.percentage}%)</span>
-                  <span>- Rs. {(cartItems.reduce((total, item) => 
+                  <span className="font-thin tracking-widest"> Rs. {(cartItems.reduce((total, item) => 
                     total + (parseFloat(item.price.replace(/[^\d.]/g, '')) * item.quantity), 
                     0) * (discountInfo.percentage / 100)).toFixed(2)}</span>
                 </div>
               )}
               <div className="flex justify-between">
                 <span>Shipping</span>
-                <span>Rs. 0.00</span>
+                <span className="font-thin tracking-widest">Rs. 0.00</span>
               </div>
-              <div className="flex justify-between text-xl font-semibold border-t border-dotted border-[#e7c1ba] pt-4">
-                <span>Total</span>
-                <span>Rs. {calculateTotal()}</span>
+              <div className="flex justify-between text-xl font-semibold border-t border-dotted border-[#e7c1ba] pt-4 items-center pb-5">
+                <span className="text-sm font-light">Total</span>
+                <span className="text-2xl tracking-widest font-light">Rs. {calculateTotal()}</span>
               </div>
             </div>
 
             <Link to="/checkout" state={{ total: calculateTotal(), discount: discountInfo.percentage }}>
-              <button className="w-full py-3 bg-[#fed2cb] text-[#c17979] rounded-xl hover:bg-[#fcdbd6] transition-colors">
-                Proceed to Checkout
+              <button className="w-full py-3 mt-5 text-2xl font-thin tracking-widest rounded-xl hover:bg-[#fff5f3] hover:text-[#ff7c62] transition-colors border border-gray-200">
+                <div className="flex justify-center items-center gap-3">
+                  CHECKOUT
+                  <Gift/>
+                </div>
               </button>
             </Link>
           </div>

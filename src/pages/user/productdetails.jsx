@@ -6,6 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { Heart, Minus, Plus, Star, ChevronRight } from 'lucide-react';
 import Navbar from '../../components/user/navbar/navbar';
 import ImageGallery from '../../components/user/Imagegallery';
+import Footer from '../../components/user/footer/footer';
 
 const ProductDetail = () => {
   const { productId } = useParams();
@@ -152,14 +153,24 @@ const ProductDetail = () => {
     <>
       <Navbar />
       <ToastContainer />
-      <div className='grid grid-cols-12 p-8 pb-20 border-b border-gray-200'>
-        <ImageGallery images={product?.images || [product?.img]} />
-        <div className='col-span-7 pl-32 pt-14'>
-          <div className='flex flex-col justify-start border-b border-gray-200 pb-8 gap-4'>
-            <p className='text-4xl tracking-wider font-medium'>{product?.name}</p>
-            <p className='text-[#be7474] text-4xl font-semibold tracking-wider'>₹{product?.price}</p>
+      
+      {/* Main Product Section */}
+      <div className='grid grid-cols-1 md:grid-cols-12 p-4 md:p-8 pb-10 md:pb-20 border-b border-gray-200'>
+        {/* Image Gallery */}
+        <div className="col-span-1 md:col-span-5">
+          <ImageGallery images={product?.images || [product?.img]} />
+        </div>
+
+        {/* Product Details */}
+        <div className='col-span-1 md:col-span-7 px-4 md:pl-32 pt-8 md:pt-14'>
+          {/* Product Title and Price */}
+          <div className='flex flex-col justify-start border-b border-gray-200 pb-6 md:pb-8 gap-4'>
+            <h1 className='text-2xl md:text-4xl tracking-wider font-medium'>{product?.name}</h1>
+            <p className='text-[#be7474] text-2xl md:text-4xl font-semibold tracking-wider'>₹{product?.price}</p>
           </div>
-          <div className='flex pt-6 pb-6 border-b border-gray-200'>
+
+          {/* Rating Stars */}
+          <div className='flex pt-4 md:pt-6 pb-4 md:pb-6 border-b border-gray-200'>
             {[...Array(5)].map((_, index) => (
               <Star 
                 key={index} 
@@ -168,53 +179,64 @@ const ProductDetail = () => {
               />
             ))}
           </div>
-          <p className='text-gray-500 pb-8 pt-10 border-b-4 font- border-gray-200 border-dotted tracking-wide'>
-            {product.description?product.description:'An dico accommodare ius, porro mnesarchum pro in. Cetero fierent urbanitas eam id, sed movet voluptua ut. Eu agam malorum nec. Eu has vide putent, dico option nominati no eam. Ea erant impetus consequuntur eos, velit congue vidisse eos ne.'}
+
+          {/* Description */}
+          <p className='text-gray-500 text-sm md:text-base pb-6 md:pb-8 pt-6 md:pt-10 border-b-4 border-gray-200 border-dotted tracking-wide'>
+            {product?.description || 'An dico accommodare ius, porro mnesarchum pro in. Cetero fierent urbanitas eam id, sed movet voluptua ut. Eu agam malorum nec. Eu has vide putent, dico option nominati no eam.'}
           </p>
-          <div className='flex pt-10 pb-14 gap-7 items-center border-b-4 font- border-gray-200 border-dotted'>
-            <p>Quantity :</p>
-            <div className='flex p-3 gap-4 border border-gray-300 items-center'>
-              <Minus className='h-5 cursor-pointer' onClick={() => handleQuantityChange(-1)}/>
-              <p className='text-gray-400'>{quantity}</p>
-              <Plus className='h-5 cursor-pointer' onClick={() => handleQuantityChange(1)}/>
+
+          {/* Quantity and Add to Cart */}
+          <div className='flex flex-wrap gap-4 md:gap-7 pt-6 md:pt-10 pb-8 md:pb-14 border-b-4 border-gray-200 border-dotted items-center'>
+            <div className="flex items-center gap-4">
+              <p className="whitespace-nowrap">Quantity:</p>
+              <div className='flex p-2 md:p-3 gap-4 border border-gray-300 items-center'>
+                <Minus className='h-4 md:h-5 cursor-pointer' onClick={() => handleQuantityChange(-1)}/>
+                <p className='text-gray-400'>{quantity}</p>
+                <Plus className='h-4 md:h-5 cursor-pointer' onClick={() => handleQuantityChange(1)}/>
+              </div>
             </div>
-            <p 
-              className='text-sm tracking-widest border-b-4 border-[#ffabab] pb-1 border-dotted cursor-pointer'
+            
+            <button 
+              className='text-sm md:text-base tracking-widest border-b-4 border-[#ffabab] pb-1 border-dotted cursor-pointer hover:text-[#be7474]'
               onClick={handleAddToCart}
             >
               ADD TO CART
-            </p>
-            <Heart className='h-4 cursor-pointer'/>
+            </button>
+            
+            <Heart className='h-4 md:h-5 cursor-pointer hover:fill-red-400 hover:text-red-400 transition-colors'/>
           </div>
-          <div className='flex pt-10 gap-10'>
-            <p className='font-light'>
+
+          {/* Categories */}
+          <div className='flex pt-6 md:pt-10 gap-4 md:gap-10'>
+            <p className='text-sm md:text-base font-light'>
               Categories: <span className='text-gray-400 font-normal'>{product?.category}</span>
             </p>
           </div>
         </div>
       </div>
 
+      {/* Recently Viewed Section */}
       {recentlyViewed.length > 0 && (
-        <div className='flex flex-col gap-10 pt-10 justify-center'>
-          <div className='text-4xl tracking-widest font-normal flex justify-center'>
+        <div className='flex flex-col gap-6 md:gap-10 pt-8 md:pt-10 justify-center px-4 md:px-8 mb-32'>
+          <div className='text-2xl md:text-4xl tracking-widest font-normal flex justify-center'>
             <p>Recent Views</p>
           </div>
-          <div className='grid grid-cols-3'>
+          <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6'>
             {recentlyViewed.map((item, index) => (
-              <Link to={`/product/${item.productId}`} key={index}>
+              <Link to={`/${item._id}`} key={index}>
                 <div className='flex flex-col justify-center items-center gap-2 p-4'>
                   <img 
                     src={item.img} 
                     alt={item.name} 
-                    className='h-72 hover:scale-110 transition-all duration-800'
+                    className='w-full h-48 md:h-72 object-cover hover:scale-105 transition-all duration-800'
                   />
-                  <p className='font-medium tracking-wider'>₹{item.price}</p>
-                  <p className='font-medium tracking-wider'>{item.name}</p>
+                  <p className='font-medium tracking-wider text-center'>₹{item.price}</p>
+                  <p className='font-medium tracking-wider text-center text-sm md:text-base'>{item.name}</p>
                   <div className='flex gap-.5 justify-center items-center'>
                     {[...Array(5)].map((_, idx) => (
                       <Star 
                         key={idx}
-                        className={`h-4 ${idx < (item.rating || 5) ? 'fill-yellow-400' : 'fill-gray-200'}`} 
+                        className={`h-3 md:h-4 ${idx < (item.rating || 5) ? 'fill-yellow-400' : 'fill-gray-200'}`} 
                         strokeWidth={0}
                       />
                     ))}
@@ -225,6 +247,7 @@ const ProductDetail = () => {
           </div>
         </div>
       )}
+      <Footer/>
     </>
   );
 };

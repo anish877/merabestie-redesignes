@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { ChevronRight, Grid2x2, List, Star, ChevronLeft, X } from 'lucide-react';
+import { ChevronRight, Grid2x2, List, Star, ChevronLeft, X, Filter, ChevronDown } from 'lucide-react';
 import Navbar from '../../components/user/navbar/navbar';
 import Footer from '../../components/user/footer/footer';
 
@@ -13,6 +13,7 @@ const Shop = ({ category }) => {
   const [loading, setLoading] = useState(true);
   const [viewMode, setViewMode] = useState('grid');
   const [sortBy, setSortBy] = useState('rating');
+  const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
   const [activeFilters, setActiveFilters] = useState({
     category: null,
     priceRange: null,
@@ -74,6 +75,10 @@ const Shop = ({ category }) => {
     }
   }, [categoryName]);
 
+  const toggleMobileFilter = () => {
+    setIsMobileFilterOpen(!isMobileFilterOpen);
+  };
+
   const handleCategoryFilter = (category) => {
     setCurrentPage(1);
     setActiveFilters(prev => ({
@@ -81,6 +86,7 @@ const Shop = ({ category }) => {
       category: category === 'all' ? null : category
     }));
     applyFilters({ ...activeFilters, category: category === 'all' ? null : category });
+    setIsMobileFilterOpen(false); // Close mobile filter after selection
   };
 
   const handleRatingFilter = (rating) => {
@@ -118,19 +124,18 @@ const Shop = ({ category }) => {
     setActiveFilters(resetFilters);
     setFilteredProducts(products);
     setCurrentPage(1);
+    setIsMobileFilterOpen(false);
   };
 
   const applyFilters = (filters) => {
     let filtered = [...products];
     
-    // Apply category filter
     if (filters.category) {
       filtered = filtered.filter(product => 
         product.category.toLowerCase() === filters.category.toLowerCase()
       );
     }
     
-    // Apply rating filters
     if (filters.rating.length > 0) {
       filtered = filtered.filter(product => 
         filters.rating.some(rating => {
@@ -165,7 +170,6 @@ const Shop = ({ category }) => {
     setCurrentPage(1);
   };
 
-  // Filter Tags Component
   const FilterTags = () => {
     const hasActiveFilters = activeFilters.category || 
                            activeFilters.priceRange || 
@@ -200,7 +204,7 @@ const Shop = ({ category }) => {
         
         <button
           onClick={clearAllFilters}
-          className="px-3 py-1 text-gray-700 rounded-full text-sm hover:text-[#be7474] "
+          className="px-3 py-1 text-gray-700 rounded-full text-sm hover:text-[#be7474]"
         >
           Clear All
         </button>
@@ -208,36 +212,80 @@ const Shop = ({ category }) => {
     );
   };
 
-  // Rest of the component remains the same...
-  const indexOfLastProduct = currentPage * productsPerPage;
-  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-  const currentProducts = filteredProducts.slice(indexOfFirstProduct, indexOfLastProduct);
-  const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
+  const Sidebar = ({ isMobile }) => (
+    <div className={`
+      ${isMobile 
+        ? 'fixed inset-0 bg-white z-50 overflow-y-auto transform transition-transform duration-300 ease-in-out'
+        : 'hidden md:block md:col-span-3 p-4 pr-4'}
+      ${isMobile && !isMobileFilterOpen ? 'translate-x-full' : 'translate-x-0'}
+    `}>
+      {isMobile && (
+        <div className="flex justify-between items-center p-4 border-b">
+          <h2 className="text-xl font-semibold">Filters</h2>
+          <X onClick={toggleMobileFilter} className="h-6 w-6 cursor-pointer" />
+        </div>
+      )}
+      
+      <div className="p-4">
+        <p className='text-2xl font-normal pb-4 border-b-4 border-gray-200 border-dotted border-spacing tracking-wider'>
+          Product Categories
+        </p>
+        <ul className='pt-4 pb-4'>
+          {categories.map((cat, index) => (
+            <li 
+              key={index}
+              onClick={() => handleCategoryFilter(cat)}
+              className={`
+                ${index !== categories.length - 1 ? 'border-b-4 border-gray-200 border-dotted border-spacing' : ''}
+                pt-4 pb-4 ml-4 text-sm font-light cursor-pointer hover:text-pink-600
+                ${activeFilters.category === cat ? 'text-pink-600' : ''}
+              `}
+            >
+              {cat}
+            </li>
+          ))}
+        </ul>
+        
+        <p className='text-2xl font-normal pb-4 border-b-4 border-gray-200 border-dotted border-spacing tracking-wider'>
+          Filter By Review
+        </p>
+        <div className='flex flex-col gap-5 pl-4 pt-4'>
+          {['4 and above', '3 and above', '2 and above'].map((rating, index) => (
+            <label key={index} className='flex gap-2 text-gray-500 font-light text-sm'>
+              <input 
+                type="checkbox"
+                checked={activeFilters.rating.includes(rating)}
+                onChange={() => handleRatingFilter(rating)}
+              />
+              {rating}
+            </label>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
 
-  const paginate = (pageNumber) => setCurrentPage(pageNumber);
-
-  const ProductCard = ({ product }) => (
+   const ProductCard = ({ product }) => (
     <div className='flex flex-col justify-center items-center gap-6 p-4'>
       <img 
         src={product.img || "https://demo2.themelexus.com/gifymo/wp-content/uploads/2021/05/21.jpg"} 
         alt={product.name} 
-        className='h-72 transition-all duration-800'
+        className='h-48 md:h-72 w-full object-cover transition-all duration-800'
       />
       <div className='flex flex-col justify-center items-center gap-2'>
         <p className='font-medium tracking-wider'>₹{product.price}</p>
-      <p className='font-medium tracking-wider'>{product.name}</p>
-      <div className='flex gap-.5 justify-center items-center'>
-        {[...Array(5)].map((_, index) => (
+        <p className='font-medium tracking-wider text-center'>{product.name}</p>
+        <div className='flex gap-.5 justify-center items-center'>
+        {[...Array(Math.floor(product.rating))].map((_, index) => (
           <Star key={index} className='fill-yellow-400 h-4' strokeWidth={0}/>
         ))}
+        </div>
       </div>
-      </div>
-      
     </div>
   );
 
   const Pagination = () => (
-    <div className="flex justify-start items-center gap-1 mt-8 mb-8">
+    <div className="flex justify-center md:justify-start items-center gap-1 mt-8 mb-8 px-4">
       <button
         onClick={() => paginate(currentPage - 1)}
         disabled={currentPage === 1}
@@ -284,6 +332,13 @@ const Shop = ({ category }) => {
     </div>
   );
 
+  const indexOfLastProduct = currentPage * productsPerPage;
+  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+  const currentProducts = filteredProducts.slice(indexOfFirstProduct, indexOfLastProduct);
+  const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
   if (selectedCategory === '404') {
     return (
       <div className="flex justify-center items-center h-screen bg-gradient-to-b from-pink-50 to-pink-100">
@@ -303,57 +358,29 @@ const Shop = ({ category }) => {
   return (
     <>
       <Navbar />
-      <div className='flex gap-.5 items-center ml-4 p-4 pt-8 pb-2'>
+      <div className='flex gap-.5 items-center p-4 pt-8 pb-2'>
         <p className='text text-gray-500 font-light'>Merabestie</p>
         <ChevronRight className='h-3'/>
         <p className='text font-medium'>Shop</p>
       </div>
+      
       <div className='grid grid-cols-12'>
-        {/* Sidebar */}
-        <div className='col-span-3 p-4 pr-14'>
-          <p className='ml-4 text-2xl font-normal pb-4 border-b-4 border-gray-200 border-dotted border-spacing tracking-wider'>
-            Product Categories
-          </p>
-          <ul className='pt-4 pb-4'>
-            {categories.map((cat, index) => (
-              <li 
-                key={index}
-                onClick={() => handleCategoryFilter(cat)}
-                className={`${
-                  index !== categories.length - 1 ? 'border-b-4 border-gray-200 border-dotted border-spacing' : ''
-                } pt-4 pb-4 ml-4 text-sm font-light cursor-pointer hover:text-pink-600 ${
-                  activeFilters.category === cat ? 'text-pink-600' : ''
-                }`}
-              >
-                {cat}
-              </li>
-            ))}
-          </ul>
-          
-          <p className='text-2xl font-normal ml-4 pb-4 border-b-4 border-gray-200 border-dotted border-spacing tracking-wider'>
-            Filter By Price
-          </p>
-          <p className='text-2xl font-normal ml-4 pt-4 pb-4 border-b-4 border-gray-200 border-dotted border-spacing tracking-wider'>
-            Filter By Review
-          </p>
-          <div className='flex flex-col gap-5 pl-4 pt-4'>
-            {['4 and above', '3 and above', '2 and above'].map((rating, index) => (
-              <label key={index} className='flex gap-2 text-gray-500 font-light text-sm'>
-                <input 
-                  type="checkbox"
-                  checked={activeFilters.rating.includes(rating)}
-                  onChange={() => handleRatingFilter(rating)}
-                />
-                {rating}
-              </label>
-            ))}
-          </div>
-        </div>
+        {/* Mobile Filter Button */}
+        <button 
+          onClick={toggleMobileFilter}
+          className="md:hidden fixed bottom-4 right-4 bg-[#be7474] text-white p-3 rounded-full shadow-lg z-50"
+        >
+          <Filter className="h-6 w-6" />
+        </button>
+
+        {/* Sidebar for both mobile and desktop */}
+        <Sidebar isMobile={true} />
+        <Sidebar isMobile={false} />
 
         {/* Main Content */}
-        <div className='col-span-9'>
-          <div className='flex justify-between pl-3 pr-4 pb-6 mr-8 border-b border-gray-200 items-center'>
-            <p className='text-gray-500 text font-extralight'>
+        <div className='col-span-12 md:col-span-9'>
+          <div className='flex flex-col md:flex-row md:justify-between p-4 border-b border-gray-200 items-start md:items-center gap-4 md:gap-0'>
+            <p className='text-gray-500 text-sm md:text font-extralight'>
               Showing {indexOfFirstProduct + 1}-{Math.min(indexOfLastProduct, filteredProducts.length)} of {filteredProducts.length} results
             </p>
             <div className='flex justify-end gap-2 items-center'>
@@ -366,7 +393,7 @@ const Shop = ({ category }) => {
                 onClick={() => setViewMode('list')}
               />
               <select 
-                className='border border-black rounded-full p-2'
+                className='border border-black rounded-full p-2 text-sm'
                 value={sortBy}
                 onChange={(e) => handleSort(e.target.value)}
               >
@@ -379,19 +406,30 @@ const Shop = ({ category }) => {
           
           <FilterTags />
           
-          <div className='grid grid-cols-3'>
+          <div className={`grid ${
+            viewMode === 'grid' 
+              ? 'grid-cols-1 sm:grid-cols-2 md:grid-cols-3' 
+              : 'grid-cols-1'
+          } gap-4`}>
             {currentProducts.map((product, index) => (
-              <Link to={`/${product._id}`}>
-                {console.log(product)}
-                <ProductCard key={index} product={product} />
+              <Link key={product._id} to={`/${product._id}`} className="w-full">
+                <ProductCard product={product} />
               </Link>
-              
             ))}
           </div>
           
           <Pagination />
         </div>
       </div>
+
+      {/* Overlay for mobile filter */}
+      {isMobileFilterOpen && (
+        <div 
+          className="fixed inset-0 bg-black bg-opacity-50 z-40 md:hidden"
+          onClick={toggleMobileFilter}
+        />
+      )}
+      
       <Footer/>
     </>
   );

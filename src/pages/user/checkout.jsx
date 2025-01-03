@@ -166,6 +166,7 @@ const Checkout = () => {
   };
 
   const calculateSubtotal = () => {
+    console.log(cartItems)
     return cartItems.reduce((total, item) => {
       return total + (parseFloat(item.price.replace(/[^\d.]/g, '')) * item.quantity);
     }, 0);
@@ -267,13 +268,12 @@ const Checkout = () => {
       </Helmet>
       <Navbar />
       
-      <div className="container mx-auto px-4 py-8 mt-12">
+      <div className="container mx-auto px-4 py-14 mt-12">
         <div className="flex flex-col md:flex-row gap-8">
           {/* Address Section */}
-          <div className="md:w-2/3 bg-white rounded-2xl shadow-lg p-8">
+          <div className="md:w-2/3 bg-white rounded-2xl p-8">
             <div className="flex items-center mb-6 space-x-4">
-              <MapPin className="text-pink-600 w-8 h-8" />
-              <h2 className="text-3xl font-bold text-gray-800">Shipping Details</h2>
+              <h2 className="text-2xl font-normal tracking-widest">SHIPPING DETAILS</h2>
             </div>
             
             <div className="grid md:grid-cols-2 gap-6">
@@ -352,8 +352,7 @@ const Checkout = () => {
           {/* Order Summary Section */}
           <div className="md:w-1/3 bg-white rounded-2xl shadow-lg p-8">
             <div className="flex items-center mb-6 space-x-4">
-              <ShoppingCart className="text-pink-600 w-8 h-8" />
-              <h2 className="text-3xl font-bold text-gray-800">Order Summary</h2>
+              <h2 className="text-4xl font-thin">Order Summary</h2>
             </div>
             
             <div className="space-y-4 max-h-96 overflow-y-auto">
@@ -370,7 +369,7 @@ const Checkout = () => {
                       <p className="text-sm text-gray-500">Qty: {item.quantity}</p>
                     </div>
                   </div>
-                  <p className="font-medium text-gray-800">
+                  <p className="font-medium text-gray-800 ">
                     Rs. {(parseFloat(item.price.replace(/[^\d.]/g, '')) * item.quantity).toFixed(2)}
                   </p>
                 </div>
@@ -402,7 +401,7 @@ const Checkout = () => {
               
               <div className="flex justify-between text-xl font-bold border-t pt-4">
                 <span>Total</span>
-                <span className="text-pink-600">Rs. {total.toFixed(2)}</span>
+                <span className="font-thin tracking-widest">Rs. {total.toFixed(2)}</span>
               </div>
               
               <button

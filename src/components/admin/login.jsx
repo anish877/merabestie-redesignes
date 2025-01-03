@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Eye, EyeOff, Lock, Mail, User, Phone } from "lucide-react";
-import { motion } from "framer-motion";
-import { Helmet } from "react-helmet";
-import Navbar from "../user/navbar/navbar";
+import AOS from "aos";
+import "aos/dist/aos.css";
 import { Link, useNavigate } from "react-router-dom";
+import Navbar from "../user/navbar/navbar";
 
 const AdminLogin = () => {
   const navigate = useNavigate();
@@ -13,6 +13,14 @@ const AdminLogin = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const [selectedMethod, setSelectedMethod] = useState(null);
+
+  useEffect(() => {
+    AOS.init({
+      duration: 1200,
+      easing: "ease-in-out-cubic",
+      once: true,
+    });
+  }, []);
 
   const handleLogin = async () => {
     if (!sellerId || !emailOrPhone || !password) {
@@ -51,87 +59,76 @@ const AdminLogin = () => {
 
   return (
     <>
-      <Helmet>
-        <title>Admin Login | Mera Bestie</title>
-      </Helmet>
       <Navbar />
-      <div className="h-[calc(100vh-140px)] bg-gradient-to-br from-pink-50 to-pink-100 flex items-center justify-center p-4 mt-20">
-        <motion.div
-          className="w-full max-w-md bg-white shadow-2xl rounded-2xl overflow-hidden"
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{
-            duration: 0.5,
-            type: "spring",
-            stiffness: 120,
-          }}
-        >
-          <div className="p-8">
-            <div className="text-center mb-8">
-              <h2 className="text-4xl font-extrabold text-gray-900 tracking-tight">
+      <div className="grid grid-cols-1 md:grid-cols-12 bg-[#f8f8f8] min-h-screen">
+        {/* Main Content */}
+        <div className="md:col-span-9 p-4 md:m-6">
+          <div className="bg-white rounded-xl p-8 md:p-12">
+            <div className="text-center mb-8" data-aos="fade-down">
+              <p className="text-xs tracking-widest text-gray-500">ADMIN PORTAL</p>
+              <h2 className="text-4xl font-thin border-b-4 border-dotted pb-4 mt-2">
                 Admin Login
               </h2>
-              <p className="text-pink-600 mt-2">Log in to Admin Dashboard</p>
             </div>
 
             {error && (
-              <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-lg mb-6 text-center">
+              <div className="bg-[#fed2cb] text-[#c17979] px-6 py-4 rounded-xl mb-8 text-center" data-aos="fade-up">
                 {error}
               </div>
             )}
 
-            <div className="space-y-6">
+            <div className="space-y-8 max-w-md mx-auto" data-aos="fade-up">
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <User className="text-pink-400" />
+                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                  <User className="text-[#c17979]" strokeWidth={1.5} />
                 </div>
                 <input
                   type="text"
                   placeholder="Seller ID"
                   required
-                  className="w-full pl-10 pr-4 py-3 border border-pink-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500 transition duration-300"
+                  className="w-full pl-12 pr-4 py-4 border-b-4 border-dotted border-[#e7c1ba] rounded-xl focus:outline-none focus:border-[#c17979] transition duration-300 bg-[#fff]"
                   value={sellerId}
                   onChange={(e) => setSellerId(e.target.value)}
                 />
               </div>
 
               {!selectedMethod ? (
-                <div className="flex justify-center gap-8">
+                <div className="flex justify-center gap-8" data-aos="fade-up">
                   <button
                     onClick={() => setSelectedMethod("emailId")}
-                    className="flex flex-col items-center p-4 px-8 border-2 border-pink-300 rounded-xl hover:border-pink-500 transition-colors"
+                    className="flex flex-col items-center p-6 bg-[#fae6ce] rounded-xl hover:bg-[#ffeed8] transition-all duration-300"
                   >
-                    <Mail size={36} className="text-pink-500 mb-2" />
-                    <span className="text-gray-700">Email</span>
+                    <Mail size={36} className="text-[#c17979] mb-2" strokeWidth={1.5} />
+                    <span className="text-[#c17979]">Email</span>
                   </button>
                   <button
                     onClick={() => setSelectedMethod("phone")}
-                    className="flex flex-col items-center p-4 px-8 border-2 border-pink-300 rounded-xl hover:border-pink-500 transition-colors"
+                    className="flex flex-col items-center p-6 bg-[#fed2cb] rounded-xl hover:bg-[#fcdbd6] transition-all duration-300"
                   >
-                    <Phone size={36} className="text-pink-500 mb-2" />
-                    <span className="text-gray-700">Phone</span>
+                    <Phone size={36} className="text-[#c17979] mb-2" strokeWidth={1.5} />
+                    <span className="text-[#c17979]">Phone</span>
                   </button>
                 </div>
               ) : selectedMethod === "emailId" ? (
-                <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <Mail className="text-pink-400" />
+                <div className="relative" data-aos="fade-up">
+                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                    <Mail className="text-[#c17979]" strokeWidth={1.5} />
                   </div>
                   <input
                     type="email"
                     placeholder="Email Address"
                     required
-                    className="w-full pl-10 pr-4 py-3 border border-pink-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500 transition duration-300"
+                    className="w-full pl-12 pr-4 py-4 border-b-4 border-dotted border-[#e7c1ba] rounded-xl focus:outline-none focus:border-[#c17979] transition duration-300 bg-[#fff]"
                     value={emailOrPhone}
                     onChange={(e) => setEmailOrPhone(e.target.value)}
                   />
                 </div>
               ) : (
-                <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <div className="relative" data-aos="fade-up">
+                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                     <div className="flex items-center">
                       <span className="mr-1">🇮🇳</span>
-                      <span className="text-gray-500">+91</span>
+                      <span className="text-[#c17979]">+91</span>
                     </div>
                   </div>
                   <input
@@ -140,7 +137,7 @@ const AdminLogin = () => {
                     required
                     maxLength="10"
                     pattern="[0-9]{10}"
-                    className="w-full pl-20 pr-4 py-3 border border-pink-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500 transition duration-300"
+                    className="w-full pl-20 pr-4 py-4 border-b-4 border-dotted border-[#e7c1ba] rounded-xl focus:outline-none focus:border-[#c17979] transition duration-300 bg-[#fff]"
                     value={emailOrPhone}
                     onChange={(e) => {
                       const value = e.target.value.replace(/\D/g, "");
@@ -152,38 +149,52 @@ const AdminLogin = () => {
                 </div>
               )}
 
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Lock className="text-pink-400" />
+              <div className="relative" data-aos="fade-up">
+                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                  <Lock className="text-[#c17979]" strokeWidth={1.5} />
                 </div>
                 <input
                   type={showPassword ? "text" : "password"}
                   placeholder="Password"
                   required
-                  className="w-full pl-10 pr-12 py-3 border border-pink-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500 transition duration-300"
+                  className="w-full pl-12 pr-12 py-4 border-b-4 border-dotted border-[#e7c1ba] rounded-xl focus:outline-none focus:border-[#c17979] transition duration-300 bg-[#fff]"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                 />
                 <button
                   type="button"
-                  className="absolute inset-y-0 right-0 pr-3 flex items-center text-pink-400 hover:text-pink-600 transition"
+                  className="absolute inset-y-0 right-0 pr-4 flex items-center text-[#c17979] hover:text-[#be5959] transition"
                   onClick={() => setShowPassword(!showPassword)}
                 >
-                  {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                  {showPassword ? <EyeOff size={20} strokeWidth={1.5} /> : <Eye size={20} strokeWidth={1.5} />}
                 </button>
               </div>
 
-              <motion.button
+              <button
                 type="button"
-                className="w-full bg-pink-500 hover:bg-pink-600 text-white py-3 rounded-lg font-semibold transition duration-300 transform active:scale-95"
-                whileTap={{ scale: 0.95 }}
+                className="w-full bg-[#c17979] hover:bg-[#be5959] text-white py-4 rounded-xl font-light tracking-wider transition duration-300 transform active:scale-95"
                 onClick={handleLogin}
+                data-aos="fade-up"
               >
-                Login
-              </motion.button>
+                LOGIN TO DASHBOARD
+              </button>
             </div>
           </div>
-        </motion.div>
+        </div>
+
+        {/* Side Content */}
+        <div className="md:col-span-3 p-4 md:m-6">
+          <div className="bg-[#fed2cb] rounded-xl p-8 text-center" data-aos="fade-left">
+            <h3 className="text-2xl font-thin text-[#c17979] mb-6">Welcome Back!</h3>
+            <p className="text-[#c17979] font-light mb-4">
+              Access your admin dashboard to manage products, orders, and more.
+            </p>
+            <div className="border-b-4 border-dotted border-[#e7c1ba] w-full mb-6"></div>
+            <p className="text-sm text-[#c17979]">
+              Need help? Contact support
+            </p>
+          </div>
+        </div>
       </div>
     </>
   );
