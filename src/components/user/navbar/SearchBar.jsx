@@ -123,7 +123,7 @@ const IntegratedSearchBar = () => {
             />
             <button 
               onClick={handleClose}
-              className="p-2 hover:text-pink-600 transition-colors duration-200 shrink-0"
+              className="p-2 hover:text-[#be7474] transition-colors duration-200 shrink-0"
               aria-label="Close search"
             >
               <X size={20} />
@@ -162,10 +162,10 @@ const IntegratedSearchBar = () => {
                             className="w-16 h-16 object-cover rounded-md mr-4 shrink-0"
                           />
                           <div className="min-w-0 flex-1">
-                            <h3 className="font-medium text-gray-800 truncate">
+                            <h3 className="font-light tracking-widest text-gray-800 truncate">
                               {result.name}
                             </h3>
-                            <p className="text-pink-600">
+                            <p className="text-[#be7474]">
                               {result.price}
                             </p>
                             <span className="text-xs text-gray-500">
