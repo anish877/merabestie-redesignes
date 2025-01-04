@@ -9,6 +9,16 @@ const IntegratedSearchBar = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
   const searchRef = useRef(null);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   useEffect(() => {
     const delayDebounceFn = setTimeout(() => {
@@ -25,9 +35,7 @@ const IntegratedSearchBar = () => {
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (searchRef.current && !searchRef.current.contains(event.target)) {
-        setIsExpanded(false);
-        setInputValue('');
-        setSearchResult([]);
+        handleClose();
       }
     };
 
@@ -62,103 +70,118 @@ const IntegratedSearchBar = () => {
 
   const handleSearchClick = () => {
     setIsExpanded(true);
+    if (isMobile) {
+      document.body.style.overflow = 'hidden';
+    }
   };
 
-  const clearSearch = () => {
+  const handleClose = () => {
+    setIsExpanded(false);
     setInputValue('');
     setSearchResult([]);
-    setIsExpanded(false);
+    if (isMobile) {
+      document.body.style.overflow = 'auto';
+    }
   };
 
   return (
     <div ref={searchRef} className="relative flex items-center">
-      <motion.div
-        initial={false}
-        animate={{ 
-          width: isExpanded ? '100%' : 'auto',
-          position: isExpanded ? 'fixed' : 'relative',
-          top: isExpanded ? '0' : 'auto',
-          left: isExpanded ? '0' : 'auto',
-          right: isExpanded ? '0' : 'auto',
-          zIndex: isExpanded ? 50 : 'auto',
-        }}
-        className="md:relative flex items-center"
-      >
-        {!isExpanded ? (
-          <button
-            onClick={handleSearchClick}
-            className="p-2 hover:text-pink-600 transition-colors duration-200"
-          >
-            <Search size={24} />
-          </button>
-        ) : (
-          <div className="w-full flex items-center bg-white shadow-md">
-            <Search className="ml-3 text-gray-400" size={20} />
+      {!isExpanded ? (
+        <button
+          onClick={handleSearchClick}
+          className="p-2 hover:text-pink-600 transition-colors duration-200"
+          aria-label="Open search"
+        >
+          <Search size={24} />
+        </button>
+      ) : (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className={`${
+            isMobile
+              ? 'fixed inset-0 bg-white z-50'
+              : 'relative w-96'
+          }`}
+        >
+          <div className={`
+            flex items-center
+            ${isMobile ? 'p-4 border-b border-gray-200' : 'rounded-lg shadow-md'}
+          `}>
+            <Search 
+              className="text-gray-400 shrink-0" 
+              size={20} 
+            />
             <input
               type="text"
-              placeholder="Search gifts..."
-              className="w-full px-3 py-3 md:py-2 focus:outline-none"
+              placeholder="Search for products..."
+              className="w-full px-3 py-2 focus:outline-none bg-transparent"
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
               autoFocus
             />
             <button 
-              onClick={clearSearch}
-              className="p-3 md:p-2 hover:text-pink-600 transition-colors duration-200"
+              onClick={handleClose}
+              className="p-2 hover:text-pink-600 transition-colors duration-200 shrink-0"
+              aria-label="Close search"
             >
               <X size={20} />
             </button>
           </div>
-        )}
-      </motion.div>
 
-      <AnimatePresence>
-        {isExpanded && (searchResult.length > 0 || isLoading) && (
-          <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            className="fixed md:absolute left-0 md:left-auto right-0 top-12 md:top-full 
-                     w-full md:w-[400px] bg-white shadow-xl overflow-hidden z-50 
-                     max-h-[80vh] md:max-h-96 md:mt-2 md:rounded-lg"
-          >
-            {isLoading ? (
-              <div className="p-4 text-center text-gray-500">
-                Searching...
-              </div>
-            ) : (
-              <ul className="overflow-y-auto max-h-[calc(80vh-4rem)] md:max-h-96">
-                {searchResult.map((result) => (
-                  <Link 
-                    to={`/${result._id}`} 
-                    key={result._id}
-                    onClick={clearSearch}
-                  >
-                    <li className="flex items-center p-4 hover:bg-gray-50 transition-colors border-b last:border-b-0">
-                      <img 
-                        src={result.img} 
-                        alt={result.name} 
-                        className="w-16 h-16 object-cover rounded-md mr-4"
-                      />
-                      <div className="flex-1 min-w-0">
-                        <h3 className="font-light tracking-widest text-gray-800 truncate">
-                          {result.name}
-                        </h3>
-                        <p className="text-[#be7474]">
-                          {result.price}
-                        </p>
-                        <span className="text-xs text-gray-500">
-                          {result.category}
-                        </span>
-                      </div>
-                    </li>
-                  </Link>
-                ))}
-              </ul>
+          <AnimatePresence>
+            {(searchResult.length > 0 || isLoading) && (
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                className={`
+                  bg-white shadow-xl overflow-hidden
+                  ${isMobile 
+                    ? 'fixed left-0 right-0 bottom-0 top-16 overflow-y-auto'
+                    : 'absolute z-100 top-full left-0 right-0 mt-2 rounded-lg max-h-96 overflow-y-auto'}
+                `}
+              >
+                {isLoading ? (
+                  <div className="p-4 text-center text-gray-500">
+                    Searching...
+                  </div>
+                ) : (
+                  <ul>
+                    {searchResult.map((result) => (
+                      <Link 
+                        to={`/${result._id}`} 
+                        key={result._id}
+                        onClick={handleClose}
+                      >
+                        <li className="flex items-center p-4 hover:bg-gray-50 transition-colors border-b last:border-b-0">
+                          <img 
+                            src={result.img} 
+                            alt={result.name} 
+                            className="w-16 h-16 object-cover rounded-md mr-4 shrink-0"
+                          />
+                          <div className="min-w-0 flex-1">
+                            <h3 className="font-medium text-gray-800 truncate">
+                              {result.name}
+                            </h3>
+                            <p className="text-pink-600">
+                              {result.price}
+                            </p>
+                            <span className="text-xs text-gray-500">
+                              {result.category}
+                            </span>
+                          </div>
+                        </li>
+                      </Link>
+                    ))}
+                  </ul>
+                )}
+              </motion.div>
             )}
-          </motion.div>
-        )}
-      </AnimatePresence>
+          </AnimatePresence>
+        </motion.div>
+      )}
     </div>
   );
 };
