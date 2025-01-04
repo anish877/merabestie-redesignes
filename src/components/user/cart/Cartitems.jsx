@@ -265,12 +265,13 @@ const CartItems = () => {
                     onChange={(e) => setVoucher(e.target.value)}
                     className="flex-1 border rounded-lg px-4 py-3 focus:outline-none focus:border-[#c17979] text-gray-700"
                   />
-                  <button 
+                  <div className="flex justify-center items-center"><button 
                     onClick={handleVoucherRedeem}
-                    className="px-6 py-3 border-b-2 border-dashed font-light tracking-wider border-[#ff7f6b] hover:text-[#fcdbd6] transition-colors whitespace-nowrap"
+                    className="px-1 w-fit py-1 border-b border-dashed font-light tracking-wider border-[#ff7f6b] hover:text-[#fcdbd6] transition-colors whitespace-nowrap"
                   >
                     APPLY
-                  </button>
+                  </button></div>
+                  
                 </div>
                 {discountInfo.message && (
                   <p className={`text-sm ${discountInfo.code ? 'text-green-600' : 'text-red-600'}`}>
