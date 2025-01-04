@@ -126,13 +126,13 @@ const HomePage = () => {
                   <img 
                     src={h1Slider2} 
                     alt="Hero banner" 
-                    className="w-full h-auto object-cover"
+                    className="w-full sm:h-auto h-64 object-cover"
                   />
                   <div className="absolute inset-0 flex items-center justify-center p-4">
-                    <div className="bg-[#fae6ce]/90 px-8 sm:px-12 py-8 sm:py-10 rounded-lg text-center space-y-3 sm:space-y-4">
+                    <div className="bg-[#fae6ce]/90 px-5 sm:px-12 py-5 sm:py-10 rounded-lg text-center space-y-3 sm:space-y-4">
                       <p className="text-xs sm:text-sm tracking-widest">STATIONERY</p>
                       <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-wide">Unique Gifts</h1>
-                      <p className="text-base sm:text-lg tracking-wider font-light">FOR EVERY OCCASION</p>
+                      <p className="text-sm sm:text-lg tracking-wider font-light">FOR EVERY OCCASION</p>
                       <p className="text-sm tracking-wide mt-4">from ₹2.90</p>
                     </div>
                   </div>
