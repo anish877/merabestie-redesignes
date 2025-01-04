@@ -251,9 +251,7 @@ const ProfessionalNavbar = () => {
           <NavLinks />
         </div>
 
-        <button onClick={toggleSearch} className="hover:text-[#be7474]">
-          <RiSearchLine size={24} />
-        </button>
+        <SearchBar />
       </div>
 
       {/* Mobile Menu */}
@@ -269,22 +267,10 @@ const ProfessionalNavbar = () => {
           </div>
         </div>
       )}
-
-      {/* Search Overlay */}
-      {isSearchOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
-          <div className="bg-white p-4 rounded-lg w-full max-w-md mx-4" ref={searchRef}>
-            <SearchBar />
-            <button 
-              onClick={toggleSearch}
-              className="mt-2 text-gray-600 hover:text-[#be7474] flex items-center justify-center w-full"
-            >
-              <RiCloseLine className="w-4 h-4 mr-2" />
-              Close
-            </button>
-          </div>
+        <div>
+            
         </div>
-      )}
+      
     </div>
   );
 };
