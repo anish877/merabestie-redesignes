@@ -267,7 +267,7 @@ const Shop = ({ category }) => {
 
   const ProductCard = ({ product }) => {
     return (
-      <div className="group">
+      <div className="group p-5">
         <div className="relative mb-4 overflow-hidden rounded-xl">
           <img 
             src={product.img || "https://demo2.themelexus.com/gifymo/wp-content/uploads/2021/05/21.jpg"}
@@ -396,14 +396,14 @@ const Shop = ({ category }) => {
               Showing {indexOfFirstProduct + 1}-{Math.min(indexOfLastProduct, filteredProducts.length)} of {filteredProducts.length} results
             </p>
             <div className='flex justify-end gap-2 items-center'>
-              <Grid2x2 
-                className={`cursor-pointer ${viewMode === 'grid' ? 'text-pink-600' : ''}`}
+              {/* <Grid2x2 
+                className={`cursor-pointer ${viewMode === 'grid' ? 'text-[#be7474]' : ''}`}
                 onClick={() => setViewMode('grid')}
               />
               <List 
-                className={`cursor-pointer ${viewMode === 'list' ? 'text-pink-600' : ''}`}
+                className={`cursor-pointer ${viewMode === 'list' ? 'text-[#be7474]' : ''}`}
                 onClick={() => setViewMode('list')}
-              />
+              /> */}
               <select 
                 className='border border-black rounded-full p-2 text-sm'
                 value={sortBy}
