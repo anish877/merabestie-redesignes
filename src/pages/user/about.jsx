@@ -88,7 +88,7 @@ const AboutPage = () => {
         {/* Left Sidebar */}
         <div className="order-2 md:order-1 md:col-span-3 p-4 md:m-6">
           <div className="p-4 md:p-8 bg-white rounded-xl">
-            <div className="flex flex-col justify-center items-center p-4 md:p-8 border-b-4 border-dotted border-gray-200 gap-2">
+            <div className="flex flex-col justify-center items-center p-4 md:p-8 border-b-2 border-dotted border-gray-200 gap-2">
               <div className="transition-all ease-in-out duration-500 bg-[#d5dbe6] rounded-full p-5 w-fit hover:bg-[#e2e9f5]">
                 <Building2 size={48} strokeWidth={0.8}/>
               </div>

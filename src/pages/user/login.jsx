@@ -42,7 +42,7 @@ const Login = () => {
           <div className="bg-white rounded-xl p-8 md:p-12" data-aos="fade-up">
             <div className="text-center mb-8">
               <p className="text-xs tracking-widest text-gray-500">WELCOME BACK</p>
-              <h2 className="text-4xl font-thin border-b-4 border-dotted pb-4 mt-2">
+              <h2 className="text-4xl font-thin border-b-2 border-dotted pb-4 mt-2">
                 Sign in to your account
               </h2>
             </div>
@@ -62,7 +62,7 @@ const Login = () => {
                   type="text"
                   placeholder="Email or Mobile Number"
                   required
-                  className="w-full pl-12 pr-4 py-4 border-b-4 border-dotted border-[#e7c1ba] rounded-xl focus:outline-none focus:border-[#c17979] transition duration-300 bg-[#fff]"
+                  className="w-full pl-12 pr-4 py-4 border-b-2 border-dotted border-[#e7c1ba] rounded-xl focus:outline-none focus:border-[#c17979] transition duration-300 bg-[#fff]"
                   value={emailOrMobile}
                   onChange={(e) => setEmailOrMobile(e.target.value)}
                 />
@@ -76,7 +76,7 @@ const Login = () => {
                   type={showPassword ? "text" : "password"}
                   placeholder="Password"
                   required
-                  className="w-full pl-12 pr-12 py-4 border-b-4 border-dotted border-[#e7c1ba] rounded-xl focus:outline-none focus:border-[#c17979] transition duration-300 bg-[#fff]"
+                  className="w-full pl-12 pr-12 py-4 border-b-2 border-dotted border-[#e7c1ba] rounded-xl focus:outline-none focus:border-[#c17979] transition duration-300 bg-[#fff]"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                 />
@@ -121,7 +121,7 @@ const Login = () => {
             <p className="text-[#c17979] font-light mb-6">
               Create an account and discover amazing gifts for every occasion.
             </p>
-            <div className="border-b-4 border-dotted border-[#e7c1ba] w-full mb-6"></div>
+            <div className="border-b-2 border-dotted border-[#e7c1ba] w-full mb-6"></div>
             <a 
               href="/signup"
               className="text-[#c17979] hover:text-[#be5959] font-light text-sm tracking-wider"

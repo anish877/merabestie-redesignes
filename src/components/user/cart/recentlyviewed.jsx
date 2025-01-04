@@ -48,7 +48,7 @@ const RecentlyViewed = () => {
           <h2 className="text-xl font-bold text-gray-800">Recently Viewed Products</h2>
         </div>
         <div className="flex justify-center items-center h-64">
-          <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-pink-500"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-pink-500"></div>
         </div>
       </div>
     );

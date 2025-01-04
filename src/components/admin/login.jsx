@@ -66,7 +66,7 @@ const AdminLogin = () => {
           <div className="bg-white rounded-xl p-8 md:p-12">
             <div className="text-center mb-8" data-aos="fade-down">
               <p className="text-xs tracking-widest text-gray-500">ADMIN PORTAL</p>
-              <h2 className="text-4xl font-thin border-b-4 border-dotted pb-4 mt-2">
+              <h2 className="text-4xl font-thin border-b-2 border-dotted pb-4 mt-2">
                 Admin Login
               </h2>
             </div>
@@ -86,7 +86,7 @@ const AdminLogin = () => {
                   type="text"
                   placeholder="Seller ID"
                   required
-                  className="w-full pl-12 pr-4 py-4 border-b-4 border-dotted border-[#e7c1ba] rounded-xl focus:outline-none focus:border-[#c17979] transition duration-300 bg-[#fff]"
+                  className="w-full pl-12 pr-4 py-4 border-b-2 border-dotted border-[#e7c1ba] rounded-xl focus:outline-none focus:border-[#c17979] transition duration-300 bg-[#fff]"
                   value={sellerId}
                   onChange={(e) => setSellerId(e.target.value)}
                 />
@@ -118,7 +118,7 @@ const AdminLogin = () => {
                     type="email"
                     placeholder="Email Address"
                     required
-                    className="w-full pl-12 pr-4 py-4 border-b-4 border-dotted border-[#e7c1ba] rounded-xl focus:outline-none focus:border-[#c17979] transition duration-300 bg-[#fff]"
+                    className="w-full pl-12 pr-4 py-4 border-b-2 border-dotted border-[#e7c1ba] rounded-xl focus:outline-none focus:border-[#c17979] transition duration-300 bg-[#fff]"
                     value={emailOrPhone}
                     onChange={(e) => setEmailOrPhone(e.target.value)}
                   />
@@ -137,7 +137,7 @@ const AdminLogin = () => {
                     required
                     maxLength="10"
                     pattern="[0-9]{10}"
-                    className="w-full pl-20 pr-4 py-4 border-b-4 border-dotted border-[#e7c1ba] rounded-xl focus:outline-none focus:border-[#c17979] transition duration-300 bg-[#fff]"
+                    className="w-full pl-20 pr-4 py-4 border-b-2 border-dotted border-[#e7c1ba] rounded-xl focus:outline-none focus:border-[#c17979] transition duration-300 bg-[#fff]"
                     value={emailOrPhone}
                     onChange={(e) => {
                       const value = e.target.value.replace(/\D/g, "");
@@ -157,7 +157,7 @@ const AdminLogin = () => {
                   type={showPassword ? "text" : "password"}
                   placeholder="Password"
                   required
-                  className="w-full pl-12 pr-12 py-4 border-b-4 border-dotted border-[#e7c1ba] rounded-xl focus:outline-none focus:border-[#c17979] transition duration-300 bg-[#fff]"
+                  className="w-full pl-12 pr-12 py-4 border-b-2 border-dotted border-[#e7c1ba] rounded-xl focus:outline-none focus:border-[#c17979] transition duration-300 bg-[#fff]"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                 />
@@ -189,7 +189,7 @@ const AdminLogin = () => {
             <p className="text-[#c17979] font-light mb-4">
               Access your admin dashboard to manage products, orders, and more.
             </p>
-            <div className="border-b-4 border-dotted border-[#e7c1ba] w-full mb-6"></div>
+            <div className="border-b-2 border-dotted border-[#e7c1ba] w-full mb-6"></div>
             <p className="text-sm text-[#c17979]">
               Need help? Contact support
             </p>

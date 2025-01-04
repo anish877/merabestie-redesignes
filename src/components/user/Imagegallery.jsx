@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 const ImageGallery = ({ images = [] }) => {
     const defaultImages = [
@@ -8,14 +8,19 @@ const ImageGallery = ({ images = [] }) => {
       "https://demo2.themelexus.com/gifymo/wp-content/uploads/2021/05/7.jpg"
     ];
   
-    const galleryImages = images.length > 0 ? images : defaultImages;
+    const [galleryImages,setGalleryImage] = useState(images.length > 0 ? images : defaultImages);
     const [selectedImage, setSelectedImage] = useState(galleryImages[0]);
+
+    useEffect(()=>{
+        setGalleryImage(images.length > 0 ? images : defaultImages)
+        setSelectedImage(galleryImages[0])
+    },[images])
   
     return (
       <div className="col-span-5">
         <div className="overflow-hidden">
           <img 
-            src={selectedImage} 
+            src={galleryImages[0]} 
             alt="Main display"
             className="w-full h-auto transition-opacity duration-300 ease-in-out"
           />

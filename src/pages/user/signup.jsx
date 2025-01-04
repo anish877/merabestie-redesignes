@@ -54,7 +54,7 @@ const SignUp = () => {
           <div className="bg-white rounded-xl p-8 md:p-12" data-aos="fade-up">
             <div className="text-center mb-8">
               <p className="text-xs tracking-widest text-gray-500">JOIN OUR COMMUNITY</p>
-              <h2 className="text-4xl font-thin border-b-4 border-dotted pb-4 mt-2">
+              <h2 className="text-4xl font-thin border-b-2 border-dotted pb-4 mt-2">
                 Create Account
               </h2>
             </div>
@@ -75,7 +75,7 @@ const SignUp = () => {
                   name="name"
                   placeholder="Full Name"
                   required
-                  className="w-full pl-12 pr-4 py-4 border-b-4 border-dotted border-[#e7c1ba] rounded-xl focus:outline-none focus:border-[#c17979] transition duration-300 bg-[#fff]"
+                  className="w-full pl-12 pr-4 py-4 border-b-2 border-dotted border-[#e7c1ba] rounded-xl focus:outline-none focus:border-[#c17979] transition duration-300 bg-[#fff]"
                   value={formData.name}
                   onChange={handleChange}
                 />
@@ -90,7 +90,7 @@ const SignUp = () => {
                   name="email"
                   placeholder="Email Address"
                   required
-                  className="w-full pl-12 pr-4 py-4 border-b-4 border-dotted border-[#e7c1ba] rounded-xl focus:outline-none focus:border-[#c17979] transition duration-300 bg-[#fff]"
+                  className="w-full pl-12 pr-4 py-4 border-b-2 border-dotted border-[#e7c1ba] rounded-xl focus:outline-none focus:border-[#c17979] transition duration-300 bg-[#fff]"
                   value={formData.email}
                   onChange={handleChange}
                 />
@@ -105,7 +105,7 @@ const SignUp = () => {
                   name="mobile"
                   placeholder="Mobile Number"
                   required
-                  className="w-full pl-12 pr-4 py-4 border-b-4 border-dotted border-[#e7c1ba] rounded-xl focus:outline-none focus:border-[#c17979] transition duration-300 bg-[#fff]"
+                  className="w-full pl-12 pr-4 py-4 border-b-2 border-dotted border-[#e7c1ba] rounded-xl focus:outline-none focus:border-[#c17979] transition duration-300 bg-[#fff]"
                   value={formData.mobile}
                   onChange={handleChange}
                 />
@@ -120,7 +120,7 @@ const SignUp = () => {
                   name="password"
                   placeholder="Password"
                   required
-                  className="w-full pl-12 pr-12 py-4 border-b-4 border-dotted border-[#e7c1ba] rounded-xl focus:outline-none focus:border-[#c17979] transition duration-300 bg-[#fff]"
+                  className="w-full pl-12 pr-12 py-4 border-b-2 border-dotted border-[#e7c1ba] rounded-xl focus:outline-none focus:border-[#c17979] transition duration-300 bg-[#fff]"
                   value={formData.password}
                   onChange={handleChange}
                 />
@@ -142,7 +142,7 @@ const SignUp = () => {
                   name="confirmPassword"
                   placeholder="Confirm Password"
                   required
-                  className="w-full pl-12 pr-4 py-4 border-b-4 border-dotted border-[#e7c1ba] rounded-xl focus:outline-none focus:border-[#c17979] transition duration-300 bg-[#fff]"
+                  className="w-full pl-12 pr-4 py-4 border-b-2 border-dotted border-[#e7c1ba] rounded-xl focus:outline-none focus:border-[#c17979] transition duration-300 bg-[#fff]"
                   value={formData.confirmPassword}
                   onChange={handleChange}
                 />
@@ -164,7 +164,7 @@ const SignUp = () => {
             <p className="text-[#c17979] font-light mb-6">
               Sign in to your account to start shopping for amazing gifts.
             </p>
-            <div className="border-b-4 border-dotted border-[#e7c1ba] w-full mb-6"></div>
+            <div className="border-b-2 border-dotted border-[#e7c1ba] w-full mb-6"></div>
             <a 
               href="/login"
               className="text-[#c17979] hover:text-[#be5959] font-light text-sm tracking-wider"

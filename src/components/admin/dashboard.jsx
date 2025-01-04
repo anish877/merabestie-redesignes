@@ -66,7 +66,7 @@ const Dashboard = () => {
         return (
             <div className="flex items-center justify-center min-h-screen bg-pink-50">
                 <div className="text-center">
-                    <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-pink-500 mx-auto mb-4"></div>
+                    <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-pink-500 mx-auto mb-4"></div>
                     <p className="text-pink-600 text-xl">Loading Dashboard...</p>
                 </div>
             </div>
@@ -136,7 +136,7 @@ const Dashboard = () => {
                     ].map((metric, index) => (
                         <div 
                             key={index} 
-                            className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow p-6 border-b-4 border-pink-500"
+                            className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow p-6 border-b-2 border-pink-500"
                         >
                             <div className="flex justify-between items-center mb-4">
                                 <div className="bg-pink-50 p-3 rounded-full">
@@ -176,7 +176,7 @@ const Dashboard = () => {
                     ].map((chart, index) => (
                         <div 
                             key={index} 
-                            className="bg-white rounded-xl shadow-lg p-6 border-t-4 border-pink-500"
+                            className="bg-white rounded-xl shadow-lg p-6 border-t-2 border-pink-500"
                         >
                             <h2 className="text-lg font-semibold text-pink-700 mb-4">{chart.title}</h2>
                             <div className="h-64 relative">

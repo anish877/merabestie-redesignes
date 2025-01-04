@@ -23,7 +23,6 @@ const ShoppingCartPage = () => {
     <CartItems />
   </div>
 </div>
-<Footer/>
     </div>
   );
 };

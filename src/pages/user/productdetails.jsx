@@ -3,7 +3,7 @@ import { useParams, useNavigate, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { Heart, Minus, Plus, Star, ChevronRight } from 'lucide-react';
+import { Heart, Minus, Plus, Star, ChevronRight, View, Eye } from 'lucide-react';
 import Navbar from '../../components/user/navbar/navbar';
 import ImageGallery from '../../components/user/Imagegallery';
 import Footer from '../../components/user/footer/footer';
@@ -143,7 +143,7 @@ const ProductDetail = () => {
             duration: 1, 
             ease: "linear" 
           }}
-          className="w-16 h-16 border-4 border-t-4 border-t-[#be7474] border-pink-200 rounded-full"
+          className="w-16 h-16 border-4 border-t-2 border-t-[#be7474] border-pink-200 rounded-full"
         />
       </div>
     );
@@ -181,12 +181,12 @@ const ProductDetail = () => {
           </div>
 
           {/* Description */}
-          <p className='text-gray-500 text-sm md:text-base pb-6 md:pb-8 pt-6 md:pt-10 border-b-4 border-gray-200 border-dotted tracking-wide'>
+          <p className='text-gray-500 text-sm md:text-base pb-6 md:pb-8 pt-6 md:pt-10 border-b-2 border-gray-200 border-dotted tracking-wide'>
             {product?.description || 'An dico accommodare ius, porro mnesarchum pro in. Cetero fierent urbanitas eam id, sed movet voluptua ut. Eu agam malorum nec. Eu has vide putent, dico option nominati no eam.'}
           </p>
 
           {/* Quantity and Add to Cart */}
-          <div className='flex flex-wrap gap-4 md:gap-7 pt-6 md:pt-10 pb-8 md:pb-14 border-b-4 border-gray-200 border-dotted items-center'>
+          <div className='flex flex-wrap gap-4 md:gap-7 pt-6 md:pt-10 pb-8 md:pb-14 border-b-2 border-gray-200 border-dotted items-center'>
             <div className="flex items-center gap-4">
               <p className="whitespace-nowrap">Quantity:</p>
               <div className='flex p-2 md:p-3 gap-4 border border-gray-300 items-center'>
@@ -197,7 +197,7 @@ const ProductDetail = () => {
             </div>
             
             <button 
-              className='text-sm md:text-base tracking-widest border-b-4 border-[#ffabab] pb-1 border-dotted cursor-pointer hover:text-[#be7474]'
+              className='text-sm md:text-base tracking-widest border-b-2 border-[#ffabab] pb-1 border-dotted cursor-pointer hover:text-[#be7474]'
               onClick={handleAddToCart}
             >
               ADD TO CART
@@ -221,28 +221,34 @@ const ProductDetail = () => {
           <div className='text-2xl md:text-4xl tracking-widest font-normal flex justify-center'>
             <p>Recent Views</p>
           </div>
-          <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6'>
+          <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-16'>
             {recentlyViewed.map((item, index) => (
-              <Link to={`/${item._id}`} key={index}>
-                <div className='flex flex-col justify-center items-center gap-2 p-4'>
-                  <img 
-                    src={item.img} 
-                    alt={item.name} 
-                    className='w-full h-48 md:h-72 object-cover hover:scale-105 transition-all duration-800'
-                  />
-                  <p className='font-medium tracking-wider text-center'>₹{item.price}</p>
-                  <p className='font-medium tracking-wider text-center text-sm md:text-base'>{item.name}</p>
-                  <div className='flex gap-.5 justify-center items-center'>
-                    {[...Array(5)].map((_, idx) => (
-                      <Star 
-                        key={idx}
-                        className={`h-3 md:h-4 ${idx < (item.rating || 5) ? 'fill-yellow-400' : 'fill-gray-200'}`} 
-                        strokeWidth={0}
+                  <div className="group">
+                    <div className="relative mb-4 overflow-hidden rounded-xl">
+                      <img 
+                        src={item.img || "https://demo2.themelexus.com/gifymo/wp-content/uploads/2021/05/21.jpg"}
+                        alt={item.name}
+                        className="w-full h-64 object-cover"
                       />
-                    ))}
+                      <div className="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                        <div className="bg-white rounded-full p-3 flex gap-4 transform -translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                          <Link to={`/${item._id}`}>
+                            <Eye className="h-5 w-5 hover:text-[#be5959] transition-colors" strokeWidth={1.5} />
+                          </Link>
+                          <Heart className="h-5 w-5 hover:text-red-400 transition-colors" strokeWidth={1.5} />
+                        </div>
+                      </div>
+                    </div>
+                    <div className="text-center space-y-2">
+                      <h3 className="text-lg font-medium">{item.name}</h3>
+                      <p className="text-[#c17979] font-semibold">₹{item.price}</p>
+                      <div className="flex justify-center gap-1">
+                        {[...Array(5)].map((_, i) => (
+                          <Star key={i} className="h-4 w-4 fill-yellow-400" strokeWidth={0} />
+                        ))}
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </Link>
             ))}
           </div>
         </div>

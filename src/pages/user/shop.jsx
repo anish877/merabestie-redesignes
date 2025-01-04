@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { ChevronRight, Grid2x2, List, Star, ChevronLeft, X, Filter, ChevronDown } from 'lucide-react';
+import { ChevronRight, Grid2x2, List, Star, ChevronLeft, X, Filter, ChevronDown, View, Heart, Eye } from 'lucide-react';
 import Navbar from '../../components/user/navbar/navbar';
 import Footer from '../../components/user/footer/footer';
 
@@ -227,7 +227,7 @@ const Shop = ({ category }) => {
       )}
       
       <div className="p-4">
-        <p className='text-2xl font-normal pb-4 border-b-4 border-gray-200 border-dotted border-spacing tracking-wider'>
+        <p className='text-2xl font-normal pb-4 border-b-2 border-gray-200 border-dotted border-spacing tracking-wider'>
           Product Categories
         </p>
         <ul className='pt-4 pb-4'>
@@ -236,7 +236,7 @@ const Shop = ({ category }) => {
               key={index}
               onClick={() => handleCategoryFilter(cat)}
               className={`
-                ${index !== categories.length - 1 ? 'border-b-4 border-gray-200 border-dotted border-spacing' : ''}
+                ${index !== categories.length - 1 ? 'border-b-2 border-gray-200 border-dotted border-spacing' : ''}
                 pt-4 pb-4 ml-4 text-sm font-light cursor-pointer hover:text-pink-600
                 ${activeFilters.category === cat ? 'text-pink-600' : ''}
               `}
@@ -246,7 +246,7 @@ const Shop = ({ category }) => {
           ))}
         </ul>
         
-        <p className='text-2xl font-normal pb-4 border-b-4 border-gray-200 border-dotted border-spacing tracking-wider'>
+        <p className='text-2xl font-normal pb-4 border-b-2 border-gray-200 border-dotted border-spacing tracking-wider'>
           Filter By Review
         </p>
         <div className='flex flex-col gap-5 pl-4 pt-4'>
@@ -265,24 +265,36 @@ const Shop = ({ category }) => {
     </div>
   );
 
-   const ProductCard = ({ product }) => (
-    <div className='flex flex-col justify-center items-center gap-6 p-4'>
-      <img 
-        src={product.img || "https://demo2.themelexus.com/gifymo/wp-content/uploads/2021/05/21.jpg"} 
-        alt={product.name} 
-        className='h-48 md:h-72 w-full object-cover transition-all duration-800'
-      />
-      <div className='flex flex-col justify-center items-center gap-2'>
-        <p className='font-medium tracking-wider'>₹{product.price}</p>
-        <p className='font-medium tracking-wider text-center'>{product.name}</p>
-        <div className='flex gap-.5 justify-center items-center'>
-        {[...Array(Math.floor(product.rating))].map((_, index) => (
-          <Star key={index} className='fill-yellow-400 h-4' strokeWidth={0}/>
-        ))}
+  const ProductCard = ({ product }) => {
+    return (
+      <div className="group">
+        <div className="relative mb-4 overflow-hidden rounded-xl">
+          <img 
+            src={product.img || "https://demo2.themelexus.com/gifymo/wp-content/uploads/2021/05/21.jpg"}
+            alt={product.name}
+            className="w-full h-56 object-cover"
+          />
+          <div className="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+            <div className="bg-white rounded-full p-3 flex gap-4 transform -translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+              <Link to={`/${product._id}`}>
+                <Eye className="h-5 w-5 hover:text-[#be5959] transition-colors" strokeWidth={1.5} />
+              </Link>
+              <Heart className="h-5 w-5 hover:text-red-400 transition-colors" strokeWidth={1.5} />
+            </div>
+          </div>
+        </div>
+        <div className="text-center space-y-2">
+          <h3 className="text-lg font-medium">{product.name}</h3>
+          <p className="text-[#c17979] font-semibold">₹{product.price}</p>
+          <div className="flex justify-center gap-1">
+            {[...Array(5)].map((_, i) => (
+              <Star key={i} className="h-4 w-4 fill-yellow-400" strokeWidth={0} />
+            ))}
+          </div>
         </div>
       </div>
-    </div>
-  );
+    );
+  };
 
   const Pagination = () => (
     <div className="flex justify-center md:justify-start items-center gap-1 mt-8 mb-8 px-4">
@@ -410,7 +422,7 @@ const Shop = ({ category }) => {
             viewMode === 'grid' 
               ? 'grid-cols-1 sm:grid-cols-2 md:grid-cols-3' 
               : 'grid-cols-1'
-          } gap-4`}>
+          } gap-6 gap-x-12`}>
             {currentProducts.map((product, index) => (
               <Link key={product._id} to={`/${product._id}`} className="w-full">
                 <ProductCard product={product} />

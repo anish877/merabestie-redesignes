@@ -40,12 +40,12 @@ const SearchBar = () => {
             const data = await response.json();
             if (data.success) {
                 const validProducts = data.products.filter(product => 
-                    (product.name.toLowerCase().includes(input.toLowerCase()) || 
-                     product.category.toLowerCase().includes(input.toLowerCase())) &&
+                    (product?.name?.toLowerCase().includes(input.toLowerCase()) || 
+                     product?.category?.toLowerCase().includes(input.toLowerCase())) &&
                     product.price && 
                     product.img && 
                     product._id &&
-                    product.visibility === "on" 
+                    product.visibility === "on" || "true"
                 );
                 setSearchResult(validProducts);
                 setShowResults(validProducts.length > 0);

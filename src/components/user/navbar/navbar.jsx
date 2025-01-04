@@ -199,7 +199,7 @@ const ProfessionalNavbar = () => {
       </div>
 
       {/* Main Header */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 justify-center items-center p-4 md:p-8 border-b-4 border-gray-200 border-dotted">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 justify-center items-center p-4 md:p-8 border-b-2 border-gray-200 border-dotted">
         <Link to={"/"} className="col-span-1">
           <div className="flex justify-start items-center text-3xl md:text-5xl font-extrabold text-[#be7474] italic">
             <h1>mera<span className="text-black">bestie</span></h1>
@@ -241,7 +241,7 @@ const ProfessionalNavbar = () => {
       </div>
 
       {/* Navigation Bar */}
-      <div className="flex items-center justify-between px-4 md:px-10 py-4 md:py-6 border-b-4 border-dotted">
+      <div className="flex items-center justify-between px-4 md:px-10 py-4 md:py-6 ">
         <button onClick={toggleMobileMenu} className="md:hidden">
           <RiMenu2Line size={24} />
         </button>
