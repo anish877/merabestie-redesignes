@@ -93,7 +93,11 @@ const Checkout = () => {
 
         const productPromises = Object.values(groupedItems).map(async (item) => {
           console.log(item)
-          const productResponse = await fetch(`https://merabestie-backend.onrender.com/product/${item.productId}`);
+          const productResponse = await fetch('https://merabestie-backend.onrender.com/:productId', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ productId: item.productId })
+          });
           const productData = await productResponse.json();
           
           if (productData.success) {
@@ -113,7 +117,11 @@ const Checkout = () => {
         
         // Fetch product details for local cart items
         const productPromises = localCartItems.map(async (item) => {
-          const productResponse = await fetch(`https://merabestie-backend.onrender.com/product/${item.productId}`);
+          const productResponse = await fetch('https://merabestie-backend.onrender.com/:productId', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ productId: item.productId })
+          });
           const productData = await productResponse.json();
           
           if (productData.success) {
