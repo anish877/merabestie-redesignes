@@ -140,7 +140,7 @@ const IntegratedSearchBar = () => {
                   bg-white shadow-xl overflow-hidden
                   ${isMobile 
                     ? 'fixed left-0 right-0 bottom-0 top-16 overflow-y-auto'
-                    : 'absolute z-100 top-full left-0 right-0 mt-2 rounded-lg max-h-96 overflow-y-auto'}
+                    : 'absolute z-50 top-full left-0 right-0 mt-2 rounded-lg max-h-96 overflow-y-auto'}
                 `}
               >
                 {isLoading ? (
