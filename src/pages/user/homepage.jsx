@@ -35,7 +35,7 @@ const HomePage = () => {
               product.productId &&
               (product.visibility === 'on' || product.visibility === 'true')
           );
-          setProducts(validProducts.slice(0, 3));
+          setProducts(validProducts.slice(0, 8));
         }
       } catch (error) {
         console.error('Error fetching products:', error);
@@ -155,9 +155,9 @@ const HomePage = () => {
             {/* Featured Items */}
             <div className="bg-white rounded-2xl p-8">
               <h2 className="text-3xl font-semibold text-center mb-12 pb-4 border-b font-mono">Featured Items</h2>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              <div className="grid grid-cols-1 md:grid-cols-4 gap-x-8">
                 {products.map((item, index) => (
-                  <div key={index} className="group">
+                  <div key={index} className="group pb-10">
                     <div className="relative mb-4 overflow-hidden rounded-xl">
                       <img 
                         src={item.img || "https://demo2.themelexus.com/gifymo/wp-content/uploads/2021/05/21.jpg"}
