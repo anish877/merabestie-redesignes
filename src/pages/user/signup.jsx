@@ -68,14 +68,14 @@ const SignUp = () => {
             <form onSubmit={handleSubmit} className="space-y-8 max-w-md mx-auto">
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                  <User className="text-[#c17979]" strokeWidth={1.5} />
+                  <User className="text-gray-500" strokeWidth={1.5} />
                 </div>
                 <input
                   type="text"
                   name="name"
                   placeholder="Full Name"
                   required
-                  className="w-full pl-12 pr-4 py-4 border-b-2 border-dotted border-[#e7c1ba] rounded-xl focus:outline-none focus:border-[#c17979] transition duration-300 bg-[#fff]"
+                  className="w-full pl-12 pr-12 py-4 border-b border-gray-300 rounded-xl focus:outline-none focus:border-[#c17979] transition duration-300 bg-[#fff]"
                   value={formData.name}
                   onChange={handleChange}
                 />
@@ -83,14 +83,14 @@ const SignUp = () => {
 
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                  <Mail className="text-[#c17979]" strokeWidth={1.5} />
+                  <Mail className="text-gray-500" strokeWidth={1.5} />
                 </div>
                 <input
                   type="email"
                   name="email"
                   placeholder="Email Address"
                   required
-                  className="w-full pl-12 pr-4 py-4 border-b-2 border-dotted border-[#e7c1ba] rounded-xl focus:outline-none focus:border-[#c17979] transition duration-300 bg-[#fff]"
+                  className="w-full pl-12 pr-12 py-4 border-b border-gray-300 rounded-xl focus:outline-none focus:border-[#c17979] transition duration-300 bg-[#fff]"
                   value={formData.email}
                   onChange={handleChange}
                 />
@@ -98,14 +98,14 @@ const SignUp = () => {
 
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                  <Phone className="text-[#c17979]" strokeWidth={1.5} />
+                  <Phone className="text-gray-500" strokeWidth={1.5} />
                 </div>
                 <input
                   type="tel"
                   name="mobile"
                   placeholder="Mobile Number"
                   required
-                  className="w-full pl-12 pr-4 py-4 border-b-2 border-dotted border-[#e7c1ba] rounded-xl focus:outline-none focus:border-[#c17979] transition duration-300 bg-[#fff]"
+                  className="w-full pl-12 pr-12 py-4 border-b border-gray-300 rounded-xl focus:outline-none focus:border-[#c17979] transition duration-300 bg-[#fff]"
                   value={formData.mobile}
                   onChange={handleChange}
                 />
@@ -113,14 +113,14 @@ const SignUp = () => {
 
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                  <Lock className="text-[#c17979]" strokeWidth={1.5} />
+                  <Lock className="text-gray-500" strokeWidth={1.5} />
                 </div>
                 <input
                   type={showPassword ? "text" : "password"}
                   name="password"
                   placeholder="Password"
                   required
-                  className="w-full pl-12 pr-12 py-4 border-b-2 border-dotted border-[#e7c1ba] rounded-xl focus:outline-none focus:border-[#c17979] transition duration-300 bg-[#fff]"
+                  className="w-full pl-12 pr-12 py-4 border-b border-gray-300 rounded-xl focus:outline-none focus:border-[#c17979] transition duration-300 bg-[#fff]"
                   value={formData.password}
                   onChange={handleChange}
                 />
@@ -135,14 +135,14 @@ const SignUp = () => {
 
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                  <Lock className="text-[#c17979]" strokeWidth={1.5} />
+                  <Lock className="text-gray-500" strokeWidth={1.5} />
                 </div>
                 <input
                   type="password"
                   name="confirmPassword"
                   placeholder="Confirm Password"
                   required
-                  className="w-full pl-12 pr-4 py-4 border-b-2 border-dotted border-[#e7c1ba] rounded-xl focus:outline-none focus:border-[#c17979] transition duration-300 bg-[#fff]"
+                  className="w-full pl-12 pr-12 py-4 border-b border-gray-300 rounded-xl focus:outline-none focus:border-[#c17979] transition duration-300 bg-[#fff]"
                   value={formData.confirmPassword}
                   onChange={handleChange}
                 />

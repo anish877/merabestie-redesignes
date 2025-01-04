@@ -17,7 +17,7 @@ const Login = () => {
     AOS.init({
       duration: 1200,
       easing: "ease-in-out-cubic",
-      once: true,
+      once: false,
     });
   }, []);
 
@@ -56,13 +56,13 @@ const Login = () => {
             <form onSubmit={handleSubmit} className="space-y-8 max-w-md mx-auto">
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                  <Mail className="text-[#c17979]" strokeWidth={1.5} />
+                  <Mail className="text-gray-400" strokeWidth={1.5} />
                 </div>
                 <input
                   type="text"
                   placeholder="Email or Mobile Number"
                   required
-                  className="w-full pl-12 pr-4 py-4 border-b-2 border-dotted border-[#e7c1ba] rounded-xl focus:outline-none focus:border-[#c17979] transition duration-300 bg-[#fff]"
+                  className="w-full pl-12 pr-4 py-4 border-b border-gray-300 rounded-xl focus:outline-none focus:border-[#c17979] transition duration-300 bg-[#fff]"
                   value={emailOrMobile}
                   onChange={(e) => setEmailOrMobile(e.target.value)}
                 />
@@ -70,13 +70,13 @@ const Login = () => {
 
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                  <Lock className="text-[#c17979]" strokeWidth={1.5} />
+                  <Lock className="text-gray-400" strokeWidth={1.5} />
                 </div>
                 <input
                   type={showPassword ? "text" : "password"}
                   placeholder="Password"
                   required
-                  className="w-full pl-12 pr-12 py-4 border-b-2 border-dotted border-[#e7c1ba] rounded-xl focus:outline-none focus:border-[#c17979] transition duration-300 bg-[#fff]"
+                  className="w-full pl-12 pr-12 py-4 border-b border-gray-300 rounded-xl focus:outline-none focus:border-[#c17979] transition duration-300 bg-[#fff]"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                 />
@@ -90,17 +90,17 @@ const Login = () => {
               </div>
 
               <div className="flex items-center justify-between text-sm">
-                <div className="flex items-center">
+                <div className="flex items-center gap-2">
                   <input
                     type="checkbox"
                     className="h-4 w-4 text-[#c17979] border-[#fed2cb] rounded focus:ring-[#c17979]"
                     id="remember-me"
                   />
-                  <label htmlFor="remember-me" className="ml-2 text-[#c17979] font-light">
+                  <label htmlFor="remember-me" className="text-gray-500 ml-2font-light">
                     Remember me
                   </label>
                 </div>
-                <a href="/forgot-password" className="text-[#c17979] hover:text-[#be5959] font-light">
+                <a href="/forgot-password" className="hover:text-[#be5959] font-light text-gray-500" >
                   Forgot password?
                 </a>
               </div>
