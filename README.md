@@ -1,75 +1,103 @@
-# Getting Started with Create React App
+# 🎁 E-Commerce Platform - Gift Card Store
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## 🚀 Overview
+This is a fully functional eCommerce platform built using **React.js** for the frontend and **MongoDB** for the backend. The platform is designed to sell gift cards and physical products, featuring seamless payment integration with **Razorpay** and order fulfillment through **Shiprocket**. The admin panel is highly dynamic, offering full control over products, orders, users, and settings.
 
-## Available Scripts
+## 🛠 Tech Stack
+- **Frontend:** React.js, Redux Toolkit, Tailwind CSS
+- **Backend:** Node.js, Express.js, MongoDB
+- **Authentication:** JWT (JSON Web Token)
+- **Payments:** Razorpay
+- **Shipping:** Shiprocket API
+- **Deployment:** Vercel (Frontend) & Render/Heroku (Backend)
 
-In the project directory, you can run:
+## ✨ Features
+### 🎁 User Features:
+- Browse and purchase a variety of **gift cards & products**
+- **Secure payments** via Razorpay
+- **Track orders** with Shiprocket integration
+- **User authentication & account management**
+- **Discount codes and promotions**
 
-### `npm start`
+### 🛠 Admin Dashboard:
+- **Manage Products:** Add, edit, and delete products dynamically
+- **User Management:** View and control user accounts
+- **Order Processing:** Track and fulfill orders with real-time updates
+- **Payment Insights:** Monitor transactions and revenue analytics
+- **Shipping Integration:** Automate deliveries via Shiprocket
+- **Coupons & Discounts:** Create special offers for customers
+- **Role-Based Access:** Assign roles for admin and staff
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## 📸 Screenshots
+| Home Page | Featured Items | Shop Page |
+|-----------|---------------|-------------|
+| <img width="1512" alt="Screenshot 2025-03-25 at 12 27 23 PM" src="https://github.com/user-attachments/assets/b5b77b4f-76fb-4764-aa90-5f470e78e921" /> | <img width="1512" alt="Screenshot 2025-03-25 at 12 27 31 PM" src="https://github.com/user-attachments/assets/67595f37-f0d8-4eac-bf34-18bd483137b5" /> | <img width="1512" alt="Screenshot 2025-03-25 at 12 27 49 PM" src="https://github.com/user-attachments/assets/9441818b-46fe-4b7c-b1fd-2e560c14c0fe" />
+ |
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+| Product Page | Cart | Checkout |
+|-----------|---------|----------------|
+| <img width="1512" alt="Screenshot 2025-03-25 at 12 28 07 PM" src="https://github.com/user-attachments/assets/8f464821-5675-4f1a-bcb6-b4a48a7f6544" /> | <img width="1512" alt="Screenshot 2025-03-25 at 12 28 36 PM" src="https://github.com/user-attachments/assets/bb6c8e7d-64cf-4e26-9977-0b21336cd52e" /> | <img width="1511" alt="Screenshot 2025-03-25 at 12 28 46 PM" src="https://github.com/user-attachments/assets/777faa74-ff84-4281-82f4-a1d04500ec38" /> |
 
-### `npm test`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## 💾 Installation
+### 1️⃣ Clone the Repository
+```bash
+git clone https://github.com/yourusername/yourrepo.git
+cd yourrepo
+```
 
-### `npm run build`
+### 2️⃣ Install Dependencies
+#### Backend
+```bash
+cd backend
+npm install
+```
+#### Frontend
+```bash
+cd ../frontend
+npm install
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### 3️⃣ Configure Environment Variables
+Create a `.env` file in both the `backend` and `frontend` folders.
+#### Backend (`.env`)
+```env
+MONGO_URI=your_mongo_db_url
+JWT_SECRET=your_secret_key
+RAZORPAY_KEY=your_razorpay_key
+SHIPROCKET_API_KEY=your_shiprocket_key
+```
+#### Frontend (`.env`)
+```env
+REACT_APP_BACKEND_URL=http://localhost:5000
+REACT_APP_RAZORPAY_KEY=your_razorpay_key
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### 4️⃣ Run the Application
+#### Backend
+```bash
+npm start
+```
+#### Frontend
+```bash
+npm start
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## 🚀 Deployment
+### Frontend (Vercel)
+```bash
+vercel --prod
+```
+### Backend (Render/Heroku)
+```bash
+git push heroku main
+```
 
-### `npm run eject`
+## 📌 Contributing
+Feel free to fork the repository and submit pull requests. Contributions are always welcome!
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## 📄 License
+This project is licensed under the MIT License.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
-# merabestie-website
-# merabestie-backend
-# merabestie-backend
-# merabestie-redesignes
-# merabestie-redesignes
+## 📞 Contact
+For any queries or collaborations, contact me at **your.email@example.com**.
